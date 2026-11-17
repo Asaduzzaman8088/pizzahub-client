@@ -1,0 +1,135 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-manrope);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-secondary-hover: var(--brand-secondary-hover);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+:root {
+  /* PizzaHub Brand Theme: Warm Tomato Red & Melted Mozzarella */
+  --brand: #E53935;
+  --brand-hover: #D32F2F;
+  --brand-secondary: #F59E0B;
+  --brand-secondary-hover: #D97706;
+
+  /* Crust Cream Light Background */
+  --background: #FDFBF7;
+  --foreground: #1A1A1E;
+
+  /* Clean White Cards with soft warm borders */
+  --card: #FFFFFF;
+  --card-foreground: #1A1A1E;
+  --popover: #FFFFFF;
+  --popover-foreground: #1A1A1E;
+
+  /* Primary: Tomato Red */
+  --primary: #E53935;
+  --primary-foreground: #FFFFFF;
+
+  /* Secondary: Mozzarella Golden Amber */
+  --secondary: #FEF3C7;
+  --secondary-foreground: #92400E;
+
+  /* Muted & Accents */
+  --muted: #F3EFEA;
+  --muted-foreground: #6B7280;
+  --accent: #FDE8E8;
+  --accent-foreground: #991B1B;
+
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+
+  --border: #E8E2D9;
+  --input: #E8E2D9;
+  --ring: #E53935;
+
+  --radius: 0.75rem;
+}
+
+.dark {
+  /* Dark Mode: Obsidian / Charcoal Crust Palette */
+  --brand: #EF4444;
+  --brand-hover: #DC2626;
+  --brand-secondary: #FBBF24;
+  --brand-secondary-hover: #F59E0B;
+
+  --background: #121214;
+  --foreground: #F5F5F7;
+
+  --card: #1E1E22;
+  --card-foreground: #F5F5F7;
+  --popover: #1E1E22;
+  --popover-foreground: #F5F5F7;
+
+  --primary: #EF4444;
+  --primary-foreground: #FFFFFF;
+
+  --secondary: #2C2618;
+  --secondary-foreground: #FDE68A;
+
+  --muted: #26262B;
+  --muted-foreground: #9CA3AF;
+  --accent: #331A1B;
+  --accent-foreground: #FCA5A5;
+
+  --destructive: #7F1D1D;
+  --destructive-foreground: #FEE2E2;
+
+  --border: #2D2D35;
+  --input: #2D2D35;
+  --ring: #EF4444;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
