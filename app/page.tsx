@@ -1,7 +1,8 @@
 import Link from "next/link"
 import { ArrowRight, Flame, ShieldCheck, Sparkles, Truck, UtensilsCrossed } from "lucide-react"
 
-import { SiteHeader } from "@/components/site-header"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -31,7 +32,7 @@ const highlights = [
 export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground transition-colors">
-      <SiteHeader />
+      <Header />
 
       <main className="flex-1">
         {/* Hero Section */}
@@ -122,14 +123,7 @@ export default function HomePage() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-muted/40 py-10 transition-colors">
-        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} PizzaHub Inc. All rights reserved. Built with precision for Pizza ordering and vendor management.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
