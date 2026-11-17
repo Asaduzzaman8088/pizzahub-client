@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
 import { useState, useRef, useEffect } from "react"
 import {
@@ -111,8 +112,14 @@ export function Navbar() {
           className="group flex items-center gap-3 transition-transform hover:scale-[1.02]"
           aria-label="PizzaHub Homepage"
         >
-          <div className="relative flex size-11 items-center justify-center rounded-2xl bg-linear-to-br from-brand to-brand-hover text-white shadow-md shadow-brand/30 transition-transform group-hover:rotate-6">
-            <Pizza className="size-6 text-white" />
+          <div className="relative flex size-11 items-center justify-center rounded-2xl bg-linear-to-br from-brand to-brand-hover p-1.5 shadow-md shadow-brand/30 transition-transform group-hover:rotate-6">
+            <Image
+              src="/images/logo.png"
+              alt="PizzaHub Logo"
+              width={34}
+              height={34}
+              className="object-contain drop-shadow"
+            />
             <span className="absolute -top-1 -right-1 flex size-3">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-secondary opacity-75" />
               <span className="relative inline-flex size-3 rounded-full bg-brand-secondary" />

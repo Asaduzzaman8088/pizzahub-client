@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useState } from "react"
 import {
   Pizza,
@@ -139,8 +140,14 @@ export function Footer() {
           {/* Brand Bio & Contact */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-flex items-center gap-2.5">
-              <div className="flex size-10 items-center justify-center rounded-xl bg-brand text-white shadow-md shadow-brand/20">
-                <Pizza className="size-5.5" />
+              <div className="flex size-10 items-center justify-center rounded-xl bg-brand p-1.5 shadow-md shadow-brand/20">
+                <Image
+                  src="/images/logo.png"
+                  alt="PizzaHub Logo"
+                  width={30}
+                  height={30}
+                  className="object-contain"
+                />
               </div>
               <span className="font-heading text-2xl font-black tracking-tight text-foreground">
                 Pizza<span className="text-brand">Hub</span>
