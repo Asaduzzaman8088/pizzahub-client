@@ -105,14 +105,14 @@ export function Navbar() {
 
   return (
     <nav className="w-full">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-15 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo & Name */}
         <Link
           href="/"
           className="group flex items-center gap-3 transition-transform hover:scale-[1.02]"
           aria-label="PizzaHub Homepage"
         >
-          <BrandMark className="size-16 p-1.5" sizes="64px" priority />
+          <BrandMark className="size-12" sizes="48px" priority />
 
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">

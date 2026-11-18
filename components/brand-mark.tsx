@@ -12,7 +12,7 @@ export function BrandMark({ className, sizes = "44px", priority = false }: Brand
   return (
     <span
       className={cn(
-        "relative flex size-11 shrink-0 items-center justify-center rounded-2xl bg-white p-1.5 shadow-md shadow-brand/25 ring-1 ring-black/5 transition-transform group-hover:rotate-6 dark:bg-card dark:ring-white/10",
+        "relative flex size-11 shrink-0 items-center justify-center transition-transform group-hover:rotate-6",
         className
       )}
     >

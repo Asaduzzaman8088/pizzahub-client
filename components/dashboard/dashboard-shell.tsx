@@ -126,7 +126,7 @@ export function DashboardShell({ role, title, description, children }: Dashboard
           aria-label="PizzaHub Homepage"
           className="flex items-center gap-3 border-b border-border px-5 py-5"
         >
-          <BrandMark className="size-14 p-1.5" sizes="56px" />
+          <BrandMark className="size-11" sizes="44px" />
           <span className="flex min-w-0 flex-col">
             <span className="flex items-center gap-1.5">
               <span className="font-heading text-xl font-black tracking-tight">
@@ -182,7 +182,7 @@ export function DashboardShell({ role, title, description, children }: Dashboard
             aria-label="PizzaHub Homepage"
             className="flex min-w-0 items-center gap-2.5"
           >
-            <BrandMark className="size-11 p-1" sizes="44px" />
+            <BrandMark className="size-9" sizes="36px" />
             <span className="flex min-w-0 flex-col">
               <span className="flex items-center gap-1.5">
                 <span className="font-heading text-lg font-black tracking-tight">

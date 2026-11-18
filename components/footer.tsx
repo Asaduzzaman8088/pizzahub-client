@@ -73,7 +73,7 @@ export function Footer() {
               aria-label="PizzaHub Homepage"
               className="group inline-flex items-center gap-3"
             >
-              <BrandMark className="size-14 p-1.5" sizes="56px" />
+              <BrandMark className="size-11" sizes="44px" />
 
               <div className="flex flex-col">
                 <div className="flex items-center gap-1.5">
