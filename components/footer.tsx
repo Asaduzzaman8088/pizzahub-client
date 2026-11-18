@@ -67,20 +67,39 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-5">
           {/* Brand Bio & Contact */}
           <div className="lg:col-span-2">
-            <Link href="/" className="inline-flex items-center gap-2.5">
-              <div className="flex size-11 items-center justify-center rounded-xl bg-white p-1 shadow-md shadow-brand/20 ring-1 ring-black/5">
+            <Link
+              href="/"
+              aria-label="PizzaHub Homepage"
+              className="group inline-flex items-center gap-3"
+            >
+              <div className="relative flex size-12 items-center justify-center rounded-2xl bg-white p-1.5 shadow-md shadow-brand/25 ring-1 ring-black/5 transition-transform group-hover:rotate-6">
                 <Image
                   src="/images/gourmet-slice-logo.png"
                   alt="PizzaHub Gourmet Slice Logo"
                   width={96}
                   height={64}
-                  sizes="44px"
+                  sizes="48px"
                   className="h-full w-full object-contain"
                 />
+                <span className="absolute -top-1 -right-1 flex size-3">
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-secondary opacity-75" />
+                  <span className="relative inline-flex size-3 rounded-full bg-brand-secondary" />
+                </span>
               </div>
-              <span className="font-heading text-2xl font-black tracking-tight text-foreground">
-                Pizza<span className="text-brand">Hub</span>
-              </span>
+
+              <div className="flex flex-col">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-heading text-2xl font-black tracking-tight text-foreground">
+                    Pizza<span className="text-brand">Hub</span>
+                  </span>
+                  <span className="rounded-md bg-brand/10 px-1.5 py-0.5 text-[10px] font-bold text-brand uppercase">
+                    Artisan
+                  </span>
+                </div>
+                <span className="-mt-1 text-[11px] font-medium tracking-wider text-muted-foreground">
+                  Wood-Fired &amp; Delivered Hot
+                </span>
+              </div>
             </Link>
 
             <p className="mt-4 max-w-sm text-sm text-muted-foreground leading-relaxed">
