@@ -29,6 +29,8 @@ import { toast } from "sonner"
 
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { NewsletterSection } from "@/components/newsletter-section"
+import { ValuePropsSection } from "@/components/value-props-section"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { MENU_ITEMS, type MenuItem } from "@/lib/menu-data"
@@ -538,6 +540,10 @@ export default function PizzaDetailsPage({
           </div>
         </div>
       )}
+
+      <ValuePropsSection />
+
+      <NewsletterSection />
 
       <Footer />
     </div>

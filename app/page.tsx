@@ -1,5 +1,7 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { NewsletterSection } from "@/components/newsletter-section"
+import { ValuePropsSection } from "@/components/value-props-section"
 import { HeroSection } from "@/components/home/hero-section"
 import { CategoriesSection } from "@/components/home/categories-section"
 import { FeaturedPizzas } from "@/components/home/featured-pizzas"
@@ -44,6 +46,10 @@ export default function HomePage() {
         {/* 9. Interactive FAQ Section */}
         <FaqSection />
       </main>
+
+      <ValuePropsSection />
+
+      <NewsletterSection />
 
       {/* Modern Comprehensive Footer */}
       <Footer />

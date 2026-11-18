@@ -41,7 +41,7 @@ export default function RootLayout({
         manrope.variable
       )}
     >
-      <body className="min-h-screen bg-background text-foreground">
+      <body className="min-h-screen bg-background text-foreground" suppressHydrationWarning>
         <ThemeProvider>
           {children}
           <Toaster richColors position="top-right" />

@@ -1,21 +1,6 @@
-"use client"
-
 import Link from "next/link"
 import Image from "next/image"
-import { useState } from "react"
-import {
-  Pizza,
-  Send,
-  Heart,
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
-  ShieldCheck,
-  Award,
-  Flame,
-} from "lucide-react"
-import { toast } from "sonner"
+import { Heart, Phone, Mail, MapPin } from "lucide-react"
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -51,102 +36,22 @@ const supportLinks = [
 ]
 
 export function Footer() {
-  const [email, setEmail] = useState("")
-  const [isSubscribing, setIsSubscribing] = useState(false)
-
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!email || !email.includes("@")) {
-      toast.error("Please enter a valid email address.")
-      return
-    }
-
-    setIsSubscribing(true)
-    setTimeout(() => {
-      setIsSubscribing(false)
-      setEmail("")
-      toast.success("Welcome to the Pizza Club! Your 15% discount code has been sent.")
-    }, 600)
-  }
-
   return (
     <footer className="border-t border-border bg-card/60 text-card-foreground transition-colors">
-      {/* Upper Value Proposition Strip */}
-      <div className="border-b border-border/60 bg-muted/30 py-8">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="flex items-center gap-3.5">
-              <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand">
-                <Flame className="size-5.5" />
-              </div>
-              <div>
-                <h4 className="font-heading text-sm font-bold text-foreground">
-                  Wood-Fired Ovens
-                </h4>
-                <p className="text-xs text-muted-foreground">
-                  Baked at 900°F for crispy blistered crusts.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3.5">
-              <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-secondary/15 text-brand-secondary">
-                <Clock className="size-5.5" />
-              </div>
-              <div>
-                <h4 className="font-heading text-sm font-bold text-foreground">
-                  30-Minute Guarantee
-                </h4>
-                <p className="text-xs text-muted-foreground">
-                  Thermal lock insulation keeps every slice hot.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3.5">
-              <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                <Award className="size-5.5" />
-              </div>
-              <div>
-                <h4 className="font-heading text-sm font-bold text-foreground">
-                  Certified Master Pizzaiolos
-                </h4>
-                <p className="text-xs text-muted-foreground">
-                  Local authentic recipes and fresh local dough.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3.5">
-              <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400">
-                <ShieldCheck className="size-5.5" />
-              </div>
-              <div>
-                <h4 className="font-heading text-sm font-bold text-foreground">
-                  100% Quality Guaranteed
-                </h4>
-                <p className="text-xs text-muted-foreground">
-                  Not thrilled? We remake it or refund instantly.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Footer Links & Newsletter */}
+      {/* Main Footer Links */}
       <div className="mx-auto max-w-7xl px-4 pt-14 pb-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-5">
           {/* Brand Bio & Contact */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-flex items-center gap-2.5">
-              <div className="flex size-10 items-center justify-center rounded-xl bg-brand p-1.5 shadow-md shadow-brand/20">
+              <div className="flex size-11 items-center justify-center rounded-xl bg-white p-1 shadow-md shadow-brand/20 ring-1 ring-black/5">
                 <Image
-                  src="/images/logo.png"
-                  alt="PizzaHub Logo"
-                  width={30}
-                  height={30}
-                  className="object-contain"
+                  src="/images/gourmet-slice-logo.png"
+                  alt="PizzaHub Gourmet Slice Logo"
+                  width={96}
+                  height={64}
+                  sizes="44px"
+                  className="h-full w-full object-contain"
                 />
               </div>
               <span className="font-heading text-2xl font-black tracking-tight text-foreground">
@@ -172,31 +77,6 @@ export function Footer() {
                 <Mail className="size-4 text-brand shrink-0" />
                 <span>orders@pizzahub-artisan.com</span>
               </div>
-            </div>
-
-            {/* Newsletter Subscription */}
-            <div className="mt-6">
-              <p className="font-heading text-xs font-bold text-foreground uppercase tracking-wider">
-                🍕 Join the Pizza Club — Get 15% Off
-              </p>
-              <form onSubmit={handleNewsletterSubmit} className="mt-2.5 flex max-w-sm gap-2">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  required
-                  className="w-full rounded-xl border border-input bg-background px-3.5 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-brand focus:ring-2 focus:ring-brand/30 focus:outline-hidden"
-                />
-                <button
-                  type="submit"
-                  disabled={isSubscribing}
-                  className="flex shrink-0 items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-brand-hover focus-visible:ring-2 focus-visible:ring-brand/40 disabled:opacity-50"
-                >
-                  <span>{isSubscribing ? "Subscribing..." : "Join"}</span>
-                  <Send className="size-3" />
-                </button>
-              </form>
             </div>
           </div>
 
