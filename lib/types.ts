@@ -1,12 +1,11 @@
 export type Role = "customer" | "vendor" | "admin"
 export type MenuCategory =
-  | "neapolitan"
-  | "new-york"
-  | "deep-dish"
-  | "detroit"
-  | "gourmet"
-  | "vegan"
-  | "gluten-free"
+  | "classic"
+  | "vegetarian"
+  | "meat-lovers"
+  | "specialty"
+  | "sides"
+  | "beverages"
 export type MenuStatus = "pending" | "approved" | "rejected" | "inactive"
 export type OrderStatus = "pending" | "accepted" | "rejected" | "cancelled"
 
@@ -16,10 +15,12 @@ export interface User {
   email: string
   image: string
   role: Role
+  authProvider?: "local" | "google"
   businessName: string
   isBlocked: boolean
   subscriptionPlan: "free" | "premium"
   subscriptionExpiresAt: string | null
+  isPremium?: boolean
   createdAt: string
 }
 
@@ -35,6 +36,7 @@ export interface MenuItem {
   location?: string
   images: string[]
   status: MenuStatus
+  isAvailable: boolean
   isFeatured: boolean
   rating: number
   reviewCount: number
@@ -54,6 +56,7 @@ export interface MenuItem {
   }
   vendorId: string
   vendorName: string
+  vendorIsPremium?: boolean
   vendorLocation: string
   vendorAddress: string
 }
@@ -86,7 +89,8 @@ export interface Review {
   rating: number
   comment: string
   createdAt: string
-  user: { id: string; name: string; image: string } | null
+  updatedAt: string
+  customer: { id: string; name: string; image: string | null } | null
 }
 
 export interface ApiList<T> {
@@ -95,6 +99,18 @@ export interface ApiList<T> {
   items?: T[]
   orders?: T[]
   reviews?: T[]
+}
+
+export interface Transaction {
+  id: string
+  vendor: { id: string; name: string; email: string; image: string } | null
+  plan: string
+  amount: number
+  currency: string
+  status: "succeeded" | "pending" | "failed"
+  stripeSessionId: string
+  stripeSubscriptionId: string
+  createdAt: string
 }
 
 export interface DashboardSummary {

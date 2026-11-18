@@ -6,7 +6,6 @@ import Link from "next/link"
 import Image from "next/image"
 import {
   Search,
-  SlidersHorizontal,
   Flame,
   Star,
   Clock,
@@ -21,7 +20,6 @@ import {
   Check,
   AlertTriangle,
 } from "lucide-react"
-import { toast } from "sonner"
 
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
@@ -30,16 +28,16 @@ import { ValuePropsSection } from "@/components/value-props-section"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useMenu } from "@/hooks/use-menu"
+import { useWishlist } from "@/lib/wishlist-client"
 
 const categories = [
-  { id: "all", label: "All Styles" },
-  { id: "neapolitan", label: "Neapolitan" },
-  { id: "new-york", label: "New York" },
-  { id: "detroit", label: "Detroit Square" },
-  { id: "deep-dish", label: "Deep Dish" },
-  { id: "gourmet", label: "Gourmet White" },
-  { id: "vegan", label: "Vegan" },
-  { id: "gluten-free", label: "Gluten-Free" },
+  { id: "all", label: "All Items" },
+  { id: "classic", label: "Classic Pizzas" },
+  { id: "vegetarian", label: "Vegetarian" },
+  { id: "meat-lovers", label: "Meat Lovers" },
+  { id: "specialty", label: "Specialty & Gourmet" },
+  { id: "sides", label: "Sides & Appetizers" },
+  { id: "beverages", label: "Beverages & Desserts" },
 ]
 
 const locations = [
@@ -72,10 +70,9 @@ function MenuCatalog() {
   const [onlyVegetarian, setOnlyVegetarian] = useState(false)
   const [onlySpicy, setOnlySpicy] = useState(false)
   const [onlyGlutenFree, setOnlyGlutenFree] = useState(false)
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-  const [wishlist, setWishlist] = useState<string[]>([])
 
   const { items, isLoading, error, reload } = useMenu({ limit: 50 })
+  const { isWishlisted, toggleWishlist } = useWishlist()
 
   // Sync state if query params change
   useEffect(() => {
@@ -143,16 +140,6 @@ function MenuCatalog() {
 
     return result
   }, [items, search, category, selectedLocation, sortBy, onlyVegetarian, onlySpicy, onlyGlutenFree])
-
-  const toggleWishlist = (id: string, name: string) => {
-    if (wishlist.includes(id)) {
-      setWishlist(wishlist.filter((itemId) => itemId !== id))
-      toast.info(`Removed ${name} from your favorites.`)
-    } else {
-      setWishlist([...wishlist, id])
-      toast.success(`Saved ${name} to your wishlist! ❤️`)
-    }
-  }
 
   const resetFilters = () => {
     setSearch("")
@@ -404,7 +391,7 @@ function MenuCatalog() {
       ) : (
         <div className="mt-10 grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3">
           {filteredItems.map((pizza) => {
-            const isFav = wishlist.includes(pizza.id)
+            const isFav = isWishlisted(pizza.id)
 
             return (
               <div
@@ -430,8 +417,8 @@ function MenuCatalog() {
 
                     {/* Wishlist Button */}
                     <button
-                      onClick={() => toggleWishlist(pizza.id, pizza.name)}
-                      aria-label="Add to favorites"
+                      onClick={() => void toggleWishlist(pizza.id, pizza.name)}
+                      aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
                       className="flex size-9 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md transition hover:scale-110 hover:bg-white hover:text-rose-500"
                     >
                       <Heart
@@ -464,7 +451,7 @@ function MenuCatalog() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5 text-xs font-bold text-amber-500">
                         <Star className="size-4 fill-amber-400 text-amber-400" />
-                        <span>{pizza.rating}</span>
+                        <span>{pizza.reviewCount > 0 ? pizza.rating : "New"}</span>
                         <span className="text-muted-foreground font-normal">
                           ({pizza.reviewCount})
                         </span>
@@ -475,6 +462,11 @@ function MenuCatalog() {
                         <span className="max-w-[140px] truncate font-medium">
                           {pizza.vendorName}
                         </span>
+                        {pizza.vendorIsPremium && (
+                          <span className="rounded-full bg-amber-100 px-1.5 py-0.5 text-[9px] font-bold text-amber-700 uppercase dark:bg-amber-900/30 dark:text-amber-300">
+                            Premium
+                          </span>
+                        )}
                       </div>
                     </div>
 
@@ -521,7 +513,7 @@ function MenuCatalog() {
                     </Link>
 
                     <Link
-                      href={`/menu/${pizza.id}`}
+                      href={`/menu/${pizza.id}?order=1`}
                       className={cn(
                         buttonVariants({ size: "sm" }),
                         "flex-1 justify-center gap-1.5 rounded-xl bg-brand font-bold text-white shadow-md shadow-brand/20 hover:bg-brand-hover"

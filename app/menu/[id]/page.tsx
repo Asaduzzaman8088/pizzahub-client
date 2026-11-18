@@ -16,12 +16,9 @@ import {
   ArrowLeft,
   Calendar,
   AlertTriangle,
-  Sparkles,
-  UtensilsCrossed,
   ShieldCheck,
   Award,
   X,
-  MessageSquare,
   Plus,
   Minus,
   Loader2,
@@ -33,28 +30,45 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { NewsletterSection } from "@/components/newsletter-section"
 import { ValuePropsSection } from "@/components/value-props-section"
+import { ReviewsSection } from "@/components/menu/reviews-section"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useMenuItem, useMenu } from "@/hooks/use-menu"
 import { useAuth } from "@/lib/auth-client"
+import { useWishlist } from "@/lib/wishlist-client"
 import { apiFetch } from "@/lib/api"
 
 export default function PizzaDetailsPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>
+  searchParams: Promise<{ order?: string }>
 }) {
   const resolvedParams = use(params)
+  const resolvedSearch = use(searchParams)
   const router = useRouter()
-  const { user } = useAuth()
+  const { user, isPending } = useAuth()
+  const { isWishlisted, toggleWishlist } = useWishlist()
+
+  useEffect(() => {
+    if (!isPending && !user) {
+      router.replace(`/sign-in?redirect=${encodeURIComponent(`/menu/${resolvedParams.id}`)}`)
+    }
+  }, [isPending, user, router, resolvedParams.id])
 
   const { item: pizza, isLoading, error, reload } = useMenuItem(resolvedParams.id)
   const { items: allItems } = useMenu({ limit: 50 })
 
   const [activeImageIdx, setActiveImageIdx] = useState(0)
-  const [isWishlisted, setIsWishlisted] = useState(false)
   const [quantity, setQuantity] = useState(1)
   const [orderModalOpen, setOrderModalOpen] = useState(false)
+  const [autoOrderDismissed, setAutoOrderDismissed] = useState(false)
+
+  const isWishlistedItem = isWishlisted(resolvedParams.id)
+  const autoOpenOrder =
+    resolvedSearch?.order === "1" && user?.role === "customer" && !autoOrderDismissed
+  const showOrderModal = orderModalOpen || autoOpenOrder
 
   // Order Form State
   const [deliveryDate, setDeliveryDate] = useState(() => {
@@ -68,57 +82,6 @@ export default function PizzaDetailsPage({
 
   // User auth details
   const userRole = user?.role || "customer"
-
-  useEffect(() => {
-    if (!user || user.role !== "customer") {
-      setIsWishlisted(false)
-      return
-    }
-
-    let active = true
-    ;(async () => {
-      try {
-        const data = await apiFetch<{ itemIds: string[] }>("/wishlist")
-        if (active) setIsWishlisted(data.itemIds?.includes(resolvedParams.id) ?? false)
-      } catch {
-        if (active) setIsWishlisted(false)
-      }
-    })()
-
-    return () => {
-      active = false
-    }
-  }, [user, resolvedParams.id])
-
-  const handleToggleWishlist = async () => {
-    if (!pizza) return
-
-    if (!user) {
-      toast.error("Please sign in to save favorites.")
-      router.push(`/sign-in?redirect=/menu/${pizza.id}`)
-      return
-    }
-    if (user.role !== "customer") {
-      toast.error("Only customer accounts can save favorites.")
-      return
-    }
-
-    const nextState = !isWishlisted
-    setIsWishlisted(nextState)
-
-    try {
-      if (nextState) {
-        await apiFetch("/wishlist", { method: "POST", body: { itemId: pizza.id } })
-        toast.success("Added to your favorite pizzas!")
-      } else {
-        await apiFetch(`/wishlist/${pizza.id}`, { method: "DELETE" })
-        toast.info("Removed from your wishlist.")
-      }
-    } catch (err) {
-      setIsWishlisted(!nextState)
-      toast.error(err instanceof Error ? err.message : "Could not update your wishlist.")
-    }
-  }
 
   const handleOpenOrderModal = () => {
     if (!pizza) return
@@ -136,7 +99,13 @@ export default function PizzaDetailsPage({
       return
     }
 
+    setAutoOrderDismissed(false)
     setOrderModalOpen(true)
+  }
+
+  const closeOrderModal = () => {
+    setOrderModalOpen(false)
+    setAutoOrderDismissed(true)
   }
 
   const handleOrderSubmit = async (e: React.FormEvent) => {
@@ -161,7 +130,7 @@ export default function PizzaDetailsPage({
           message: [deliveryTimeSlot, bakingNotes.trim()].filter(Boolean).join(" — "),
         },
       })
-      setOrderModalOpen(false)
+      closeOrderModal()
       toast.success(
         `Order confirmed! ${quantity}x ${pizza.name} has been sent to ${pizza.vendorName}.`
       )
@@ -175,6 +144,21 @@ export default function PizzaDetailsPage({
 
   // Similar pizzas in same category or district
   const relatedPizzas = allItems.filter((p) => p.id !== pizza?.id).slice(0, 3)
+
+  if (!isPending && !user) {
+    return (
+      <div className="flex min-h-screen flex-col bg-background text-foreground">
+        <Header />
+        <main className="flex flex-1 items-center justify-center">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Loader2 className="size-4 animate-spin" />
+            Redirecting to sign in...
+          </div>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
 
   if (isLoading) {
     return (
@@ -273,14 +257,14 @@ export default function PizzaDetailsPage({
                 </div>
 
                 <button
-                  onClick={handleToggleWishlist}
-                  aria-label="Wishlist"
+                  onClick={() => void toggleWishlist(pizza.id, pizza.name)}
+                  aria-label={isWishlistedItem ? "Remove from wishlist" : "Add to wishlist"}
                   className="absolute top-4 right-4 flex size-10 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-md transition hover:bg-white hover:text-rose-500"
                 >
                   <Heart
                     className={cn(
                       "size-5 transition-colors",
-                      isWishlisted ? "fill-rose-500 text-rose-500" : "text-white"
+                      isWishlistedItem ? "fill-rose-500 text-rose-500" : "text-white"
                     )}
                   />
                 </button>
@@ -359,9 +343,11 @@ export default function PizzaDetailsPage({
                 <div className="flex items-center justify-between border-b border-border/60 pb-4">
                   <div className="flex items-center gap-1.5 text-sm font-bold text-amber-500">
                     <Star className="size-4.5 fill-amber-400 text-amber-400" />
-                    <span>{pizza.rating}</span>
+                    <span>{pizza.reviewCount > 0 ? pizza.rating : "New"}</span>
                     <span className="text-xs text-muted-foreground font-normal">
-                      ({pizza.reviewCount} customer reviews)
+                      {pizza.reviewCount > 0
+                        ? `(${pizza.reviewCount} customer reviews)`
+                        : "(no reviews yet)"}
                     </span>
                   </div>
 
@@ -467,6 +453,11 @@ export default function PizzaDetailsPage({
                           {pizza.vendorName}
                         </h4>
                         <ShieldCheck className="size-3.5 text-emerald-500" />
+                        {pizza.vendorIsPremium && (
+                          <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700 uppercase dark:bg-amber-900/30 dark:text-amber-300">
+                            Premium
+                          </span>
+                        )}
                       </div>
                       <p className="text-xs text-muted-foreground">{pizza.vendorAddress}</p>
                       <div className="mt-1 flex items-center gap-2 text-[11px] text-muted-foreground">
@@ -481,6 +472,8 @@ export default function PizzaDetailsPage({
               </div>
             </div>
           </div>
+
+          <ReviewsSection itemId={pizza.id} onReviewChange={() => void reload()} />
 
           {/* Related Pizzas Strip */}
           <div className="mt-20 border-t border-border/60 pt-12">
@@ -520,7 +513,7 @@ export default function PizzaDetailsPage({
       </main>
 
       {/* Order Now Modal Dialog */}
-      {orderModalOpen && (
+      {showOrderModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs animate-in fade-in-0">
           <div className="relative w-full max-w-lg rounded-3xl border border-border bg-card p-6 shadow-2xl sm:p-8 text-foreground">
             {/* Modal Header */}
@@ -532,7 +525,7 @@ export default function PizzaDetailsPage({
                 </h3>
               </div>
               <button
-                onClick={() => setOrderModalOpen(false)}
+                onClick={closeOrderModal}
                 className="rounded-lg p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
               >
                 <X className="size-5" />
@@ -631,7 +624,7 @@ export default function PizzaDetailsPage({
               <div className="mt-6 flex items-center gap-3 border-t border-border/60 pt-4">
                 <button
                   type="button"
-                  onClick={() => setOrderModalOpen(false)}
+                  onClick={closeOrderModal}
                   className={cn(
                     buttonVariants({ variant: "outline" }),
                     "flex-1 justify-center rounded-xl font-bold"
