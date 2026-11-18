@@ -1,6 +1,7 @@
 import Link from "next/link"
-import Image from "next/image"
 import { Heart, Phone, Mail, MapPin } from "lucide-react"
+
+import { BrandMark } from "@/components/brand-mark"
 
 function XLogo({ className = "size-4" }: { className?: string }) {
   return (
@@ -72,20 +73,7 @@ export function Footer() {
               aria-label="PizzaHub Homepage"
               className="group inline-flex items-center gap-3"
             >
-              <div className="relative flex size-12 items-center justify-center rounded-2xl bg-white p-1.5 shadow-md shadow-brand/25 ring-1 ring-black/5 transition-transform group-hover:rotate-6">
-                <Image
-                  src="/images/gourmet-slice-logo.png"
-                  alt="PizzaHub Gourmet Slice Logo"
-                  width={96}
-                  height={64}
-                  sizes="48px"
-                  className="h-full w-full object-contain"
-                />
-                <span className="absolute -top-1 -right-1 flex size-3">
-                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-secondary opacity-75" />
-                  <span className="relative inline-flex size-3 rounded-full bg-brand-secondary" />
-                </span>
-              </div>
+              <BrandMark className="size-12" sizes="48px" />
 
               <div className="flex flex-col">
                 <div className="flex items-center gap-1.5">

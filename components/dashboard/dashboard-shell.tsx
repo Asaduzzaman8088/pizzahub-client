@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, type ReactNode } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import {
@@ -22,6 +21,7 @@ import {
 } from "lucide-react"
 import { toast } from "sonner"
 
+import { BrandMark } from "@/components/brand-mark"
 import { useAuth } from "@/lib/auth-client"
 import { cn } from "@/lib/utils"
 import type { Role } from "@/lib/types"
@@ -126,20 +126,7 @@ export function DashboardShell({ role, title, description, children }: Dashboard
           aria-label="PizzaHub Homepage"
           className="flex items-center gap-3 border-b border-border px-5 py-5"
         >
-          <span className="relative flex size-11 shrink-0 items-center justify-center rounded-xl bg-white p-1.5 shadow-sm ring-1 ring-black/5">
-            <Image
-              src="/images/gourmet-slice-logo.png"
-              alt="PizzaHub logo"
-              width={96}
-              height={64}
-              sizes="44px"
-              className="h-full w-full object-contain"
-            />
-            <span className="absolute -top-1 -right-1 flex size-2.5">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-secondary opacity-75" />
-              <span className="relative inline-flex size-2.5 rounded-full bg-brand-secondary" />
-            </span>
-          </span>
+          <BrandMark className="size-11" sizes="44px" />
           <span className="flex min-w-0 flex-col">
             <span className="flex items-center gap-1.5">
               <span className="font-heading text-xl font-black tracking-tight">
@@ -195,20 +182,7 @@ export function DashboardShell({ role, title, description, children }: Dashboard
             aria-label="PizzaHub Homepage"
             className="flex min-w-0 items-center gap-2.5"
           >
-            <span className="relative flex size-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-sm ring-1 ring-black/5">
-              <Image
-                src="/images/gourmet-slice-logo.png"
-                alt="PizzaHub logo"
-                width={96}
-                height={64}
-                sizes="36px"
-                className="h-full w-full object-contain"
-              />
-              <span className="absolute -top-0.5 -right-0.5 flex size-2">
-                <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-secondary opacity-75" />
-                <span className="relative inline-flex size-2 rounded-full bg-brand-secondary" />
-              </span>
-            </span>
+            <BrandMark className="size-9 p-1" sizes="36px" />
             <span className="flex min-w-0 flex-col">
               <span className="flex items-center gap-1.5">
                 <span className="font-heading text-lg font-black tracking-tight">

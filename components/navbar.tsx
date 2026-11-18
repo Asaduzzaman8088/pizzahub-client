@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
 import { useState, useRef, useEffect } from "react"
 import {
@@ -27,6 +26,7 @@ import {
 import { useTheme } from "next-themes"
 import { toast } from "sonner"
 
+import { BrandMark } from "@/components/brand-mark"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/lib/auth-client"
@@ -112,21 +112,7 @@ export function Navbar() {
           className="group flex items-center gap-3 transition-transform hover:scale-[1.02]"
           aria-label="PizzaHub Homepage"
         >
-          <div className="relative flex size-12 items-center justify-center rounded-2xl bg-white p-1.5 shadow-md shadow-brand/25 ring-1 ring-black/5 transition-transform group-hover:rotate-6">
-            <Image
-              src="/images/gourmet-slice-logo.png"
-              alt="PizzaHub Gourmet Slice Logo"
-              width={96}
-              height={64}
-              sizes="48px"
-              priority
-              className="h-full w-full object-contain"
-            />
-            <span className="absolute -top-1 -right-1 flex size-3">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-secondary opacity-75" />
-              <span className="relative inline-flex size-3 rounded-full bg-brand-secondary" />
-            </span>
-          </div>
+          <BrandMark className="size-12" sizes="48px" priority />
 
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
