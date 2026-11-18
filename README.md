@@ -101,6 +101,14 @@ The Browse Menu page builds query state (search text, category, location, sort) 
 - `lib/api.ts` always sends `credentials: "include"`, so the cookie authenticates requests.
 - Every protected API route runs `verifyToken` (verify signature, load the user, reject blocked/missing users) and `requireRole(...)` for role checks. Invalid/expired tokens return `401`; wrong roles return `403`.
 
+## Deployment (Vercel)
+
+1. Import the client repository into Vercel (framework is auto-detected as Next.js).
+2. Set `NEXT_PUBLIC_API_URL=https://<server-project>.vercel.app/api`.
+3. Set `NEXT_PUBLIC_IMGBB_API_KEY` to a live ImgBB key.
+4. Set `NEXT_PUBLIC_GOOGLE_CLIENT_ID` and add the deployed client origin to the Google OAuth client's authorized JavaScript origins.
+5. Add the deployed client origin to the server's `CLIENT_URL` (and `ALLOWED_ORIGINS` for previews) so CORS and cookies work.
+
 ## Demo credentials
 
 Seeded by the server (`npm run seed`):
