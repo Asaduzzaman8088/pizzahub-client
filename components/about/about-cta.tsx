@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 
 export function AboutCta() {
   return (
-    <section className="py-16">
+    <section className="py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-brand via-brand-hover to-rose-800 p-10 text-center text-white shadow-2xl sm:p-16">
           <div className="absolute -top-20 -right-20 size-64 rounded-full bg-white/10 blur-2xl" />

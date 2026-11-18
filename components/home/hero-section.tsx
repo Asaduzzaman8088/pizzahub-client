@@ -30,7 +30,7 @@ export function HeroSection() {
   }
 
   return (
-    <section className="relative overflow-hidden border-b border-border/40 py-16 md:py-24 lg:py-28">
+    <section className="relative overflow-hidden border-b border-border/40 py-12 md:py-16 lg:py-20">
       {/* Ambient background glows */}
       <div
         aria-hidden
@@ -150,7 +150,7 @@ export function HeroSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="mt-16 grid grid-cols-2 gap-4 rounded-3xl border border-border bg-card/70 p-6 shadow-sm backdrop-blur-md sm:grid-cols-4 lg:p-8"
+          className="mt-10 grid grid-cols-2 gap-4 rounded-3xl border border-border bg-card/70 p-6 shadow-sm backdrop-blur-md sm:grid-cols-4 lg:p-8"
         >
           <div className="flex flex-col items-center border-b border-border/60 pb-4 text-center sm:border-r sm:border-b-0 sm:pb-0">
             <span className="font-heading text-3xl font-black text-brand lg:text-4xl">

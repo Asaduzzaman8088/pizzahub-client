@@ -49,7 +49,7 @@ const team = [
 
 export function TeamSection() {
   return (
-    <section className="border-b border-border/40 bg-muted/20 py-16">
+    <section className="border-b border-border/40 bg-muted/20 py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-10 text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-brand/10 px-4 py-1.5 text-sm font-semibold text-brand">

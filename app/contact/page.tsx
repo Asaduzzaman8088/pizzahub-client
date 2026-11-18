@@ -19,7 +19,7 @@ export default function ContactPage() {
       <Header />
       <main className="flex-1">
         <ContactHero />
-        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-5">
             <div className="lg:col-span-3">
               <ContactForm />

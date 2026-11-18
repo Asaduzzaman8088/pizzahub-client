@@ -26,7 +26,7 @@ export function NewsletterSection() {
   }
 
   return (
-    <section className="border-t border-border/40 bg-muted/20 py-14 lg:py-16">
+    <section className="border-t border-border/40 bg-muted/20 py-10 lg:py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-3xl border border-brand/20 bg-linear-to-br from-brand via-brand-hover to-rose-800 p-8 text-white shadow-2xl sm:p-12">
           <div className="absolute -top-24 -right-24 size-72 rounded-full bg-white/10 blur-2xl" />

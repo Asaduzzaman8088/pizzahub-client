@@ -14,7 +14,7 @@ export function FeaturedPizzas() {
   const { isWishlisted, isToggling, toggleWishlist } = useWishlist()
 
   return (
-    <section id="featured" className="border-b border-border/40 py-16 lg:py-24">
+    <section id="featured" className="border-b border-border/40 py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">

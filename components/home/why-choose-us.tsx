@@ -38,7 +38,7 @@ const reasons = [
 
 export function WhyChooseUs() {
   return (
-    <section id="why-us" className="border-b border-border/40 py-16 lg:py-24 bg-card/40">
+    <section id="why-us" className="border-b border-border/40 py-12 lg:py-16 bg-card/40">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <span className="rounded-full bg-brand-secondary/15 px-3 py-1 text-xs font-bold text-brand-secondary uppercase tracking-wider">

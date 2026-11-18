@@ -1,6 +1,6 @@
 export function OurStory() {
   return (
-    <section className="border-b border-border/40 py-16">
+    <section className="border-b border-border/40 py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
           {/* Text */}

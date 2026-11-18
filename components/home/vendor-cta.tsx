@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 
 export function VendorCta() {
   return (
-    <section id="vendors" className="border-b border-border/40 py-16 lg:py-24 bg-muted/20">
+    <section id="vendors" className="border-b border-border/40 py-12 lg:py-16 bg-muted/20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-8 shadow-xl sm:p-12 lg:p-16">
           {/* Subtle background glow */}

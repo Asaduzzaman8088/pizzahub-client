@@ -2,7 +2,7 @@ import { Mail, Phone, MessageSquare } from "lucide-react"
 
 export function ContactHero() {
   return (
-    <section className="relative overflow-hidden border-b border-border/40 bg-linear-to-br from-brand via-brand-hover to-rose-800 py-20 text-white">
+    <section className="relative overflow-hidden border-b border-border/40 bg-linear-to-br from-brand via-brand-hover to-rose-800 py-14 text-white">
       <div className="absolute -top-32 -right-32 size-[500px] rounded-full bg-white/5 blur-3xl" />
       <div className="absolute -bottom-32 -left-32 size-[500px] rounded-full bg-black/10 blur-3xl" />
 

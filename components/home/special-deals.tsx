@@ -19,7 +19,7 @@ export function SpecialDeals() {
   }
 
   return (
-    <section id="deals" className="border-b border-border/40 py-16 lg:py-20 bg-muted/20">
+    <section id="deals" className="border-b border-border/40 py-12 lg:py-16 bg-muted/20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Banner Card */}
         <div className="relative overflow-hidden rounded-3xl border border-brand/20 bg-linear-to-br from-brand via-brand-hover to-brand-secondary p-8 text-white shadow-2xl sm:p-12 lg:p-14">

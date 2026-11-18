@@ -35,7 +35,7 @@ export function FaqSection() {
   }
 
   return (
-    <section id="faq" className="border-b border-border/40 py-16 lg:py-24">
+    <section id="faq" className="border-b border-border/40 py-12 lg:py-16">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <div className="inline-flex items-center gap-1.5 rounded-full bg-brand/10 px-3 py-1 text-xs font-bold text-brand uppercase tracking-wider">
