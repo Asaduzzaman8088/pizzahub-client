@@ -3,7 +3,8 @@
 import { Suspense, useState } from "react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
-import { Eye, EyeOff, Loader2, Lock, LogIn, Mail, Pizza } from "lucide-react"
+import Image from "next/image"
+import { Eye, EyeOff, Loader2, Lock, LogIn, Mail } from "lucide-react"
 import { toast } from "sonner"
 
 import { Header } from "@/components/header"
@@ -46,8 +47,15 @@ function SignInForm() {
   return (
     <div className="w-full max-w-md rounded-3xl border border-border bg-card p-8 shadow-xl shadow-black/5">
       <div className="flex flex-col items-center text-center">
-        <div className="flex size-12 items-center justify-center rounded-2xl bg-brand/10 text-brand">
-          <Pizza className="size-6" />
+        <div className="flex size-12 items-center justify-center rounded-2xl bg-white p-1.5 shadow-sm ring-1 ring-black/5">
+          <Image
+            src="/images/gourmet-slice-logo.png"
+            alt="PizzaHub logo"
+            width={96}
+            height={64}
+            sizes="44px"
+            className="h-full w-full object-contain"
+          />
         </div>
         <h1 className="mt-4 font-heading text-2xl font-black tracking-tight text-foreground">
           Welcome back

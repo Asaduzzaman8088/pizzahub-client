@@ -1,5 +1,5 @@
+import Image from "next/image"
 import Link from "next/link"
-import { Pizza } from "lucide-react"
 
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
@@ -9,8 +9,15 @@ export default function NotFound() {
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <Header />
       <main className="flex flex-1 flex-col items-center justify-center gap-4 px-4 text-center">
-        <div className="flex size-20 items-center justify-center rounded-3xl bg-brand/10 text-brand">
-          <Pizza className="size-10" />
+        <div className="flex size-20 items-center justify-center rounded-3xl bg-white p-3 shadow-sm ring-1 ring-black/5">
+          <Image
+            src="/images/gourmet-slice-logo.png"
+            alt="PizzaHub logo"
+            width={96}
+            height={64}
+            sizes="64px"
+            className="h-full w-full object-contain"
+          />
         </div>
         <h1 className="font-heading text-4xl font-black">404 — Page not found</h1>
         <p className="max-w-md text-sm text-muted-foreground">

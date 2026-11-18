@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, type ReactNode } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import {
@@ -121,8 +122,15 @@ export function DashboardShell({ role, title, description, children }: Dashboard
     <div className="flex min-h-screen bg-background text-foreground">
       <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-card/60 lg:flex">
         <Link href="/" className="flex items-center gap-2 border-b border-border px-5 py-5">
-          <span className="flex size-9 items-center justify-center rounded-xl bg-brand/10 text-brand">
-            <Pizza className="size-5" />
+          <span className="flex size-9 items-center justify-center rounded-xl bg-white p-1 shadow-sm ring-1 ring-black/5">
+            <Image
+              src="/images/gourmet-slice-logo.png"
+              alt="PizzaHub logo"
+              width={96}
+              height={64}
+              sizes="36px"
+              className="h-full w-full object-contain"
+            />
           </span>
           <span className="font-heading text-xl font-black">
             Pizza<span className="text-brand">Hub</span>
