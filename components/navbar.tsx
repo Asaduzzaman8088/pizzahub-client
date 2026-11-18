@@ -416,7 +416,7 @@ export function Navbar() {
                 )}
               >
                 <UserPlus className="size-4" />
-                <span>Join PizzaHub</span>
+                <span>Sign Up</span>
               </Link>
             </div>
           )}
@@ -539,7 +539,7 @@ export function Navbar() {
                     "w-full justify-center bg-brand font-semibold text-white hover:bg-brand-hover"
                   )}
                 >
-                  Join PizzaHub
+                  Sign Up
                 </Link>
               </div>
             )}
