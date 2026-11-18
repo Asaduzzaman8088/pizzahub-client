@@ -2,9 +2,9 @@
 
 The Next.js frontend for **PizzaHub**, a multi-vendor pizza ordering and delivery platform. Customers browse artisan pizzas, place orders, and manage their accounts; vendors publish menus and manage orders; admins moderate users, menu items, and subscription transactions.
 
-- **Live site:** `<LIVE_SITE_URL>`
-- **Client repository:** `<CLIENT_GITHUB_URL>`
-- **Server repository:** `<SERVER_GITHUB_URL>`
+- **Live site:** https://pizzahub-client-two.vercel.app
+- **Client repository:** https://github.com/Asaduzzaman8088/pizzahub-client
+- **Server repository:** https://github.com/Asaduzzaman8088/pizzahub-server
 
 ## Features
 
@@ -104,7 +104,7 @@ The Browse Menu page builds query state (search text, category, location, sort) 
 ## Deployment (Vercel)
 
 1. Import the client repository into Vercel (framework is auto-detected as Next.js).
-2. Set `NEXT_PUBLIC_API_URL=https://<server-project>.vercel.app/api`.
+2. Set `NEXT_PUBLIC_API_URL=https://pizzahub-server-eight.vercel.app/api`.
 3. Set `NEXT_PUBLIC_IMGBB_API_KEY` to a live ImgBB key.
 4. Set `NEXT_PUBLIC_GOOGLE_CLIENT_ID` and add the deployed client origin to the Google OAuth client's authorized JavaScript origins.
 5. Add the deployed client origin to the server's `CLIENT_URL` (and `ALLOWED_ORIGINS` for previews) so CORS and cookies work.

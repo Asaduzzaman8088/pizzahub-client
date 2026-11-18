@@ -148,7 +148,7 @@ function SubscriptionContent() {
                   Upgrade with Stripe
                 </button>
 
-                {!data?.stripeConfigured && (
+                {!data?.stripeConfigured && process.env.NODE_ENV !== "production" && (
                   <button
                     onClick={() => void activateDemo()}
                     disabled={isWorking !== null}
