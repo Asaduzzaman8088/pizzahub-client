@@ -188,6 +188,43 @@ export function DashboardShell({ role, title, description, children }: Dashboard
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
+        {/* Mobile brand bar: the sidebar logo is hidden below lg. */}
+        <div className="flex items-center border-b border-border bg-card/40 px-4 py-3 lg:hidden">
+          <Link
+            href="/"
+            aria-label="PizzaHub Homepage"
+            className="flex min-w-0 items-center gap-2.5"
+          >
+            <span className="relative flex size-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-sm ring-1 ring-black/5">
+              <Image
+                src="/images/gourmet-slice-logo.png"
+                alt="PizzaHub logo"
+                width={96}
+                height={64}
+                sizes="36px"
+                className="h-full w-full object-contain"
+              />
+              <span className="absolute -top-0.5 -right-0.5 flex size-2">
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-secondary opacity-75" />
+                <span className="relative inline-flex size-2 rounded-full bg-brand-secondary" />
+              </span>
+            </span>
+            <span className="flex min-w-0 flex-col">
+              <span className="flex items-center gap-1.5">
+                <span className="font-heading text-lg font-black tracking-tight">
+                  Pizza<span className="text-brand">Hub</span>
+                </span>
+                <span className="rounded-md bg-brand/10 px-1.5 py-0.5 text-[9px] font-bold text-brand uppercase">
+                  Artisan
+                </span>
+              </span>
+              <span className="-mt-0.5 truncate text-[10px] font-medium tracking-wider text-muted-foreground">
+                Wood-Fired &amp; Delivered Hot
+              </span>
+            </span>
+          </Link>
+        </div>
+
         <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-card/60 px-4 py-4 sm:px-6">
           <div>
             <p className="text-xs font-bold tracking-wide text-brand uppercase">
