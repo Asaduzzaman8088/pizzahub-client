@@ -110,7 +110,7 @@ function SubscriptionContent() {
               <p className="font-heading text-xl font-black">Premium Vendor</p>
             </div>
             <p className="mt-2 font-heading text-4xl font-black">
-              $19.99
+              $5.00
               <span className="ml-1 font-sans text-sm font-semibold text-muted-foreground">
                 / month
               </span>
