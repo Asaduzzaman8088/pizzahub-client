@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
-import { Loader2, Save, User as UserIcon } from "lucide-react"
+import { useRef, useState } from "react"
+import { Loader2, Save, Trash2, UploadCloud, User as UserIcon } from "lucide-react"
 import { toast } from "sonner"
 
 import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { apiFetch } from "@/lib/api"
 import { useAuth } from "@/lib/auth-client"
+import { uploadToImgbb } from "@/lib/imgbb"
 
 export default function ProfileSettingsPage() {
   const { user, isPending, refresh } = useAuth()
@@ -16,6 +17,25 @@ export default function ProfileSettingsPage() {
   const [currentPassword, setCurrentPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [isSaving, setIsSaving] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
+  const photoInputRef = useRef<HTMLInputElement>(null)
+
+  const handlePhotoChange = async (files: FileList | null) => {
+    const file = files?.[0]
+    if (!file) return
+
+    setIsUploading(true)
+    try {
+      const url = await uploadToImgbb(file)
+      setImage(url)
+      toast.success("Photo uploaded. Click Save changes to apply it.")
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not upload the photo.")
+    } finally {
+      setIsUploading(false)
+      if (photoInputRef.current) photoInputRef.current.value = ""
+    }
+  }
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -67,25 +87,66 @@ export default function ProfileSettingsPage() {
           onSubmit={handleSubmit}
           className="max-w-2xl space-y-6 rounded-2xl border border-border bg-card p-6"
         >
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-5">
             {image ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={image}
                 alt={name || "Profile"}
-                className="size-16 rounded-full object-cover ring-2 ring-brand/20"
+                className="size-20 rounded-full object-cover ring-2 ring-brand/20"
               />
             ) : (
-              <div className="flex size-16 items-center justify-center rounded-full bg-brand text-xl font-bold text-white">
-                {name?.slice(0, 1).toUpperCase() || <UserIcon className="size-6" />}
+              <div className="flex size-20 items-center justify-center rounded-full bg-brand text-2xl font-bold text-white">
+                {name?.slice(0, 1).toUpperCase() || <UserIcon className="size-7" />}
               </div>
             )}
-            <div>
+
+            <div className="min-w-0 flex-1">
               <p className="font-heading text-lg font-bold">{user.name}</p>
               <p className="text-xs text-muted-foreground">{user.email}</p>
               <span className="mt-1 inline-flex rounded-full bg-brand/10 px-2.5 py-0.5 text-[10px] font-bold text-brand uppercase">
                 {user.role}
               </span>
+
+              <input
+                ref={photoInputRef}
+                type="file"
+                accept="image/*"
+                onChange={(e) => void handlePhotoChange(e.target.files)}
+                className="hidden"
+              />
+
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => photoInputRef.current?.click()}
+                  disabled={isUploading}
+                  className="flex items-center gap-1.5 rounded-lg bg-brand px-3 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-brand-hover disabled:opacity-50"
+                >
+                  {isUploading ? (
+                    <Loader2 className="size-3.5 animate-spin" />
+                  ) : (
+                    <UploadCloud className="size-3.5" />
+                  )}
+                  {isUploading ? "Uploading..." : image ? "Change photo" : "Upload photo"}
+                </button>
+
+                {image && (
+                  <button
+                    type="button"
+                    onClick={() => setImage("")}
+                    disabled={isUploading}
+                    className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-xs font-bold text-muted-foreground transition hover:border-destructive/40 hover:text-destructive disabled:opacity-50"
+                  >
+                    <Trash2 className="size-3.5" />
+                    Remove
+                  </button>
+                )}
+              </div>
+
+              <p className="mt-1.5 text-[11px] text-muted-foreground">
+                JPG or PNG, uploaded securely to ImgBB. Click Save changes to apply it.
+              </p>
             </div>
           </div>
 
@@ -101,11 +162,14 @@ export default function ProfileSettingsPage() {
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block text-xs font-bold text-foreground">Profile image URL</label>
+              <label className="block text-xs font-bold text-foreground">
+                Profile image URL{" "}
+                <span className="font-normal text-muted-foreground">(optional)</span>
+              </label>
               <input
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
-                placeholder="https://..."
+                placeholder="https://... or upload a photo above"
                 className={`mt-1 ${inputClass}`}
               />
             </div>
@@ -153,7 +217,7 @@ export default function ProfileSettingsPage() {
 
           <button
             type="submit"
-            disabled={isSaving}
+            disabled={isSaving || isUploading}
             className="flex items-center gap-2 rounded-xl bg-brand px-5 py-2.5 text-sm font-bold text-white shadow-md hover:bg-brand-hover disabled:opacity-50"
           >
             {isSaving ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}

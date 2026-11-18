@@ -184,9 +184,25 @@ export function DashboardShell({ role, title, description, children }: Dashboard
               <p className="text-sm font-bold">{user.name}</p>
               <p className="text-xs text-muted-foreground">{user.email}</p>
             </div>
-            <div className="flex size-9 items-center justify-center rounded-full bg-brand text-sm font-bold text-white">
-              {user.name?.slice(0, 1).toUpperCase() || <User className="size-4" />}
-            </div>
+            <Link
+              href="/dashboard/profile"
+              title="Profile settings"
+              aria-label="Profile settings"
+              className="shrink-0"
+            >
+              {user.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={user.image}
+                  alt={user.name || "Profile"}
+                  className="size-9 rounded-full object-cover ring-2 ring-brand/20"
+                />
+              ) : (
+                <div className="flex size-9 items-center justify-center rounded-full bg-brand text-sm font-bold text-white">
+                  {user.name?.slice(0, 1).toUpperCase() || <User className="size-4" />}
+                </div>
+              )}
+            </Link>
             <button
               onClick={handleSignOut}
               className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-xs font-bold text-muted-foreground transition hover:border-destructive/40 hover:text-destructive"
