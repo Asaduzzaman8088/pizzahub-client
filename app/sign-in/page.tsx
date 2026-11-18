@@ -47,7 +47,7 @@ function SignInForm() {
   return (
     <div className="w-full max-w-md rounded-3xl border border-border bg-card p-8 shadow-xl shadow-black/5">
       <div className="flex flex-col items-center text-center">
-        <BrandMark className="size-12" sizes="44px" />
+        <BrandMark className="size-16 p-1.5" sizes="64px" />
         <h1 className="mt-4 font-heading text-2xl font-black tracking-tight text-foreground">
           Welcome back
         </h1>

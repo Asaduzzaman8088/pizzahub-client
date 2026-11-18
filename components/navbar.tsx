@@ -112,7 +112,7 @@ export function Navbar() {
           className="group flex items-center gap-3 transition-transform hover:scale-[1.02]"
           aria-label="PizzaHub Homepage"
         >
-          <BrandMark className="size-12" sizes="48px" priority />
+          <BrandMark className="size-16 p-1.5" sizes="64px" priority />
 
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">

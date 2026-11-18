@@ -10,7 +10,7 @@ export default function NotFound() {
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <Header />
       <main className="flex flex-1 flex-col items-center justify-center gap-4 px-4 text-center">
-        <BrandMark className="size-20 rounded-3xl" sizes="64px" />
+        <BrandMark className="size-24 rounded-3xl p-2" sizes="96px" />
         <h1 className="font-heading text-4xl font-black">404 — Page not found</h1>
         <p className="max-w-md text-sm text-muted-foreground">
           This slice seems to have been eaten. The page you are looking for does not exist or has

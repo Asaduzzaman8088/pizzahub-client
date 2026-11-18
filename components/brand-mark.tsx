@@ -19,8 +19,8 @@ export function BrandMark({ className, sizes = "44px", priority = false }: Brand
       <Image
         src="/images/gourmet-slice-logo.png"
         alt=""
-        width={96}
-        height={64}
+        width={612}
+        height={408}
         sizes={sizes}
         priority={priority}
         className="h-full w-full object-contain dark:hidden"
@@ -28,8 +28,8 @@ export function BrandMark({ className, sizes = "44px", priority = false }: Brand
       <Image
         src="/images/pizzahub-logo-white.png"
         alt=""
-        width={96}
-        height={64}
+        width={612}
+        height={408}
         sizes={sizes}
         priority={priority}
         className="hidden h-full w-full object-contain dark:block"
