@@ -188,10 +188,13 @@ function MenuCatalog() {
       </div>
 
       {/* Main Filter & Search Control Bar */}
-      <div className="mt-8 space-y-4">
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-12">
+      <div
+        className="sticky z-40 -mx-4 mt-8 space-y-3 border-b border-border/60 bg-background/95 px-4 pt-3 pb-3 backdrop-blur-md sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+        style={{ top: "var(--site-header-height, 88px)" }}
+      >
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-12">
           {/* Search Input Box */}
-          <div className="relative md:col-span-6 lg:col-span-5">
+          <div className="relative col-span-2 md:col-span-6 lg:col-span-5">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-muted-foreground">
               <Search className="size-4.5 text-brand" />
             </div>
@@ -214,7 +217,7 @@ function MenuCatalog() {
           </div>
 
           {/* District Location Selector */}
-          <div className="relative md:col-span-3 lg:col-span-4">
+          <div className="relative col-span-1 md:col-span-3 lg:col-span-4">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-muted-foreground">
               <MapPin className="size-4 text-brand" />
             </div>
@@ -232,7 +235,7 @@ function MenuCatalog() {
           </div>
 
           {/* Sort By Dropdown */}
-          <div className="relative md:col-span-3 lg:col-span-3">
+          <div className="relative col-span-1 md:col-span-3 lg:col-span-3">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-muted-foreground">
               <ArrowUpDown className="size-4 text-brand" />
             </div>
@@ -270,9 +273,10 @@ function MenuCatalog() {
             )
           })}
         </div>
+      </div>
 
-        {/* Dietary Filters & Clear Badges Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border/60 bg-muted/30 p-3">
+      {/* Dietary Filters & Clear Badges Bar */}
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border/60 bg-muted/30 p-3">
           <div className="flex flex-wrap items-center gap-2 text-xs">
             <span className="font-bold text-foreground">Dietary Preferences:</span>
 
@@ -326,7 +330,6 @@ function MenuCatalog() {
             </button>
           )}
         </div>
-      </div>
 
       {/* Pizza Grid or Empty State */}
       {isLoading ? (
