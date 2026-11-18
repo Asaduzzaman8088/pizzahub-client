@@ -2,21 +2,45 @@ import Link from "next/link"
 import Image from "next/image"
 import { Heart, Phone, Mail, MapPin } from "lucide-react"
 
-const quickLinks = [
-  { label: "Home", href: "/" },
-  { label: "Explore Menu", href: "/menu" },
-  { label: "Hot Deals & Combos", href: "/#deals" },
-  { label: "About Our Pizzeria", href: "/#about" },
-  { label: "Track Your Order", href: "/dashboard/customer/orders" },
-]
+function XLogo({ className = "size-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  )
+}
+
+function FacebookLogo({ className = "size-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z" />
+    </svg>
+  )
+}
+
+function InstagramLogo({ className = "size-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.42.56.22.96.48 1.38.9.42.42.68.82.9 1.38.17.42.37 1.06.42 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.42 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.17-1.06.37-2.23.42-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.42a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.17-.42-.37-1.06-.42-2.23C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.25-1.8.42-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.17 1.06-.37 2.23-.42C8.42 2.21 8.8 2.2 12 2.2zm0 1.8c-3.15 0-3.5.01-4.74.07-1.14.05-1.76.24-2.17.4-.55.21-.94.47-1.35.88-.41.41-.67.8-.88 1.35-.16.41-.35 1.03-.4 2.17C2.41 8.5 2.4 8.85 2.4 12s.01 3.5.07 4.74c.05 1.14.24 1.76.4 2.17.21.55.47.94.88 1.35.41.41.8.67 1.35.88.41.16 1.03.35 2.17.4 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c1.14-.05 1.76-.24 2.17-.4.55-.21.94-.47 1.35-.88.41-.41.67-.8.88-1.35.16-.41.35-1.03.4-2.17.06-1.24.07-1.59.07-4.74s-.01-3.5-.07-4.74c-.05-1.14-.24-1.76-.4-2.17a3.6 3.6 0 0 0-.88-1.35 3.6 3.6 0 0 0-1.35-.88c-.41-.16-1.03-.35-2.17-.4C15.5 4.01 15.15 4 12 4zm0 3.06a4.94 4.94 0 1 1 0 9.88 4.94 4.94 0 0 1 0-9.88zm0 1.8a3.14 3.14 0 1 0 0 6.28 3.14 3.14 0 0 0 0-6.28zm5.14-2.99a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3z" />
+    </svg>
+  )
+}
+
+function YouTubeLogo({ className = "size-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.51A3.02 3.02 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3.02 3.02 0 0 0 2.12 2.14c1.88.51 9.38.51 9.38.51s7.5 0 9.38-.51a3.02 3.02 0 0 0 2.12-2.14A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.6V8.4l6.24 3.6-6.24 3.6z" />
+    </svg>
+  )
+}
 
 const pizzaCategories = [
-  { label: "Neapolitan Wood-Fired", href: "/menu?category=neapolitan" },
-  { label: "Chicago Deep Dish", href: "/menu?category=deep-dish" },
-  { label: "Detroit Square Slices", href: "/menu?category=detroit" },
-  { label: "Gourmet White Truffle", href: "/menu?category=gourmet" },
-  { label: "Vegan & Plant-Based", href: "/menu?category=vegan" },
-  { label: "Gluten-Free Cauliflower", href: "/menu?category=gluten-free" },
+  { label: "Classic Pizzas", href: "/menu?category=classic" },
+  { label: "Vegetarian Pizzas", href: "/menu?category=vegetarian" },
+  { label: "Meat Lovers", href: "/menu?category=meat-lovers" },
+  { label: "Specialty & Gourmet", href: "/menu?category=specialty" },
+  { label: "Sides & Appetizers", href: "/menu?category=sides" },
+  { label: "Beverages & Desserts", href: "/menu?category=beverages" },
 ]
 
 const vendorLinks = [
@@ -77,6 +101,27 @@ export function Footer() {
                 <Mail className="size-4 text-brand shrink-0" />
                 <span>orders@pizzahub-artisan.com</span>
               </div>
+            </div>
+
+            {/* Social Links */}
+            <div className="mt-5 flex items-center gap-2">
+              {[
+                { label: "X", href: "https://x.com", icon: <XLogo /> },
+                { label: "Facebook", href: "https://facebook.com", icon: <FacebookLogo /> },
+                { label: "Instagram", href: "https://instagram.com", icon: <InstagramLogo /> },
+                { label: "YouTube", href: "https://youtube.com", icon: <YouTubeLogo /> },
+              ].map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="flex size-9 items-center justify-center rounded-xl border border-border bg-background text-muted-foreground transition hover:border-brand/40 hover:text-brand"
+                >
+                  {social.icon}
+                </a>
+              ))}
             </div>
           </div>
 

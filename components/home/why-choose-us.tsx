@@ -1,3 +1,6 @@
+"use client"
+
+import { motion } from "motion/react"
 import { Flame, ShieldCheck, HeartHandshake, Sparkles, Truck, Award } from "lucide-react"
 
 const reasons = [
@@ -54,8 +57,12 @@ export function WhyChooseUs() {
           {reasons.map((item, idx) => {
             const Icon = item.icon
             return (
-              <div
+              <motion.div
                 key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.4, delay: (idx % 3) * 0.08 }}
                 className="group relative rounded-3xl border border-border bg-card p-7 shadow-xs transition-all duration-300 hover:border-brand/40 hover:shadow-lg"
               >
                 <div className="flex size-12 items-center justify-center rounded-2xl bg-brand/10 text-brand transition group-hover:bg-brand group-hover:text-white">
@@ -69,7 +76,7 @@ export function WhyChooseUs() {
                 <p className="mt-2 text-xs text-muted-foreground leading-relaxed sm:text-sm">
                   {item.description}
                 </p>
-              </div>
+              </motion.div>
             )
           })}
         </div>

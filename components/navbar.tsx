@@ -17,6 +17,7 @@ import {
   ShoppingBag,
   LayoutDashboard,
   PlusCircle,
+  Settings,
   Shield,
   Heart,
   ChevronDown,
@@ -366,6 +367,18 @@ export function Navbar() {
                         </Link>
                       </>
                     )}
+                  </div>
+
+                  {/* Profile Settings */}
+                  <div className="mt-2 border-t border-border/60 pt-1.5">
+                    <Link
+                      href="/dashboard/profile"
+                      onClick={() => setProfileDropdownOpen(false)}
+                      className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                    >
+                      <Settings className="size-4 text-slate-500" />
+                      <span>Profile Settings</span>
+                    </Link>
                   </div>
 
                   {/* Sign Out Button */}

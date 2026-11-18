@@ -1,5 +1,8 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
+import { motion } from "motion/react"
 import { ArrowRight, Sparkles } from "lucide-react"
 
 export interface CategoryCard {
@@ -13,52 +16,52 @@ export interface CategoryCard {
 
 const categories: CategoryCard[] = [
   {
-    id: "neapolitan",
-    title: "Neapolitan Wood-Fired",
-    tagline: "High-heat blistered crust, sweet San Marzano tomatoes & fresh fior di latte.",
-    count: "14 Pizzas",
+    id: "classic",
+    title: "Classic Pizzas",
+    tagline: "Timeless Margheritas, pepperoni and cheese pies baked on blistered stone decks.",
+    count: "12 Items",
     image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=700&q=80",
-    popularTopping: "Fresh Basil & Extra Virgin Olive Oil",
+    popularTopping: "San Marzano & Fior di Latte",
   },
   {
-    id: "deep-dish",
-    title: "Chicago Deep Dish",
-    tagline: "Thick buttery cornmeal crust, two inches of molten cheese and chunky spiced sauce.",
-    count: "9 Pizzas",
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=700&q=80",
-    popularTopping: "Italian Fennel Sausage & Crushed Garlic",
+    id: "vegetarian",
+    title: "Vegetarian Pizzas",
+    tagline: "Garden-fresh pies with cashew mozzarella, roasted vegetables and cauliflower crusts.",
+    count: "10 Items",
+    image: "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=700&q=80",
+    popularTopping: "Cashew Ricotta & Fire-Roasted Peppers",
   },
   {
-    id: "detroit",
-    title: "Detroit Square Slices",
-    tagline: "Caramelized Wisconsin brick cheese edges with pillowy, airy focaccia dough.",
-    count: "8 Pizzas",
-    image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=700&q=80",
-    popularTopping: "Spicy Cup Pepperoni & Hot Honey",
-  },
-  {
-    id: "new-york",
-    title: "New York Foldable Slices",
-    tagline: "Crispy yet pliable wide slices with dried oregano and savory low-moisture mozzarella.",
-    count: "16 Pizzas",
+    id: "meat-lovers",
+    title: "Meat Lovers",
+    tagline: "Cupping pepperoni, fennel sausage, smoked bacon and aged prosciutto in every slice.",
+    count: "9 Items",
     image: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=700&q=80",
-    popularTopping: "Double Pepperoni & Garlic Knots",
+    popularTopping: "Double Pepperoni & Hot Honey",
   },
   {
-    id: "gourmet",
-    title: "Gourmet Truffle & White",
-    tagline: "No tomato sauce — rich ricotta, black truffle sauce, caramelized onions and thyme.",
-    count: "7 Pizzas",
+    id: "specialty",
+    title: "Specialty & Gourmet",
+    tagline: "Black truffle, quattro formaggi and adventurous chef-driven flavor combinations.",
+    count: "7 Items",
     image: "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?auto=format&fit=crop&w=700&q=80",
     popularTopping: "Wild Foraged Mushrooms & Fontina",
   },
   {
-    id: "vegan",
-    title: "Vegan & Plant-Based",
-    tagline: "Hand-crafted cashew mozzarella, smoky seitan crumbles, and local charred veggies.",
-    count: "10 Pizzas",
-    image: "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=700&q=80",
-    popularTopping: "Cashew Ricotta & Fire-Roasted Peppers",
+    id: "sides",
+    title: "Sides & Appetizers",
+    tagline: "Garlic knots, crispy wings and bruschetta to round out the perfect pizza night.",
+    count: "6 Items",
+    image: "https://images.unsplash.com/photo-1619535860434-ba1d8fa12536?auto=format&fit=crop&w=700&q=80",
+    popularTopping: "Garlic Butter & Marinara Dip",
+  },
+  {
+    id: "beverages",
+    title: "Beverages & Desserts",
+    tagline: "Italian sodas, fresh lemonade, tiramisu and gelato to finish on a sweet note.",
+    count: "8 Items",
+    image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=700&q=80",
+    popularTopping: "Tiramisu & Pistachio Gelato",
   },
 ]
 
@@ -92,11 +95,17 @@ export function CategoriesSection() {
 
         {/* 6 Category Grid */}
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {categories.map((cat) => (
-            <Link
+          {categories.map((cat, idx) => (
+            <motion.div
               key={cat.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.4, delay: idx * 0.05 }}
+            >
+            <Link
               href={`/menu?category=${cat.id}`}
-              className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-xl hover:shadow-brand/5"
+              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-xl hover:shadow-brand/5"
             >
               {/* Image Banner */}
               <div className="relative h-48 w-full overflow-hidden bg-muted">
@@ -136,6 +145,7 @@ export function CategoriesSection() {
                 </div>
               </div>
             </Link>
+            </motion.div>
           ))}
         </div>
       </div>

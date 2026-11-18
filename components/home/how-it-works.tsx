@@ -1,5 +1,4 @@
 import { Pizza, Flame, Truck, ArrowRight } from "lucide-react"
-import Link from "next/link"
 
 const steps = [
   {

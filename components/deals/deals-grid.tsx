@@ -16,7 +16,7 @@ const deals = [
     savings: "Save up to $12",
     validUntil: "Every Tuesday",
     cta: "Order Detroit Style",
-    href: "/menu?category=detroit",
+    href: "/menu?category=specialty",
   },
   {
     id: 2,
@@ -86,7 +86,7 @@ const deals = [
     savings: "Save $5 today",
     validUntil: "While stocks last",
     cta: "Grab This Deal",
-    href: "/menu/margherita-bufala",
+    href: "/menu?search=Margherita",
   },
 ]
 

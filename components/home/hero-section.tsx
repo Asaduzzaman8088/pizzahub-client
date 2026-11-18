@@ -3,15 +3,13 @@
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { motion } from "motion/react"
 import {
   ArrowRight,
   Flame,
   Search,
-  Sparkles,
   Store,
-  Clock,
   Star,
-  ShieldCheck,
   Pizza,
 } from "lucide-react"
 
@@ -53,17 +51,27 @@ export function HeroSection() {
           </div>
 
           {/* Main Headline */}
-          <h1 className="mt-6 font-heading text-4xl font-black tracking-tight sm:text-6xl lg:text-7xl">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mt-6 font-heading text-4xl font-black tracking-tight sm:text-6xl lg:text-7xl"
+          >
             Hot, Handcrafted Pizza. <br />
             <span className="bg-linear-to-r from-brand via-brand-hover to-brand-secondary bg-clip-text text-transparent">
               Baked To Perfection.
             </span>
-          </h1>
+          </motion.h1>
 
           {/* Subtitle */}
-          <p className="mx-auto mt-6 max-w-2xl text-base text-muted-foreground sm:text-lg lg:text-xl leading-relaxed">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mx-auto mt-6 max-w-2xl text-base text-muted-foreground sm:text-lg lg:text-xl leading-relaxed"
+          >
             Discover authentic Neapolitan, Detroit square crusts, and New York slices crafted by passionate local pizzaiolos. Hand-stretched dough, 900° wood fire, delivered within 30 minutes.
-          </p>
+          </motion.p>
 
           {/* Search Form */}
           <form
@@ -137,7 +145,13 @@ export function HeroSection() {
         </div>
 
         {/* Live Metrics Grid Bar */}
-        <div className="mt-16 grid grid-cols-2 gap-4 rounded-3xl border border-border bg-card/70 p-6 shadow-sm backdrop-blur-md sm:grid-cols-4 lg:p-8">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="mt-16 grid grid-cols-2 gap-4 rounded-3xl border border-border bg-card/70 p-6 shadow-sm backdrop-blur-md sm:grid-cols-4 lg:p-8"
+        >
           <div className="flex flex-col items-center border-b border-border/60 pb-4 text-center sm:border-r sm:border-b-0 sm:pb-0">
             <span className="font-heading text-3xl font-black text-brand lg:text-4xl">
               45+
@@ -178,7 +192,7 @@ export function HeroSection() {
             </span>
             <span className="text-[11px] text-muted-foreground/80">Over 3,200 reviews</span>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
