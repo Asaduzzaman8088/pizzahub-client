@@ -20,6 +20,7 @@ import { toast } from "sonner"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { buttonVariants } from "@/components/ui/button"
+import { GoogleAuthButton } from "@/components/google-auth-button"
 import { useAuth } from "@/lib/auth-client"
 import { cn } from "@/lib/utils"
 
@@ -43,6 +44,14 @@ function SignUpForm() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
+
+    if (!/^(?=.*[a-z])(?=.*[A-Z]).{6,}$/.test(password)) {
+      toast.error(
+        "Password must be at least 6 characters and include an uppercase and lowercase letter."
+      )
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
@@ -179,7 +188,7 @@ function SignUpForm() {
               autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="At least 6 characters"
+              placeholder="Min 6 chars, 1 uppercase, 1 lowercase"
               className="w-full rounded-xl border border-input bg-background py-2.5 pr-10 pl-10 text-sm text-foreground outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
             />
             <button
@@ -191,6 +200,9 @@ function SignUpForm() {
               {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
             </button>
           </div>
+          <p className="mt-1 text-[11px] text-muted-foreground">
+            Use at least 6 characters with one uppercase and one lowercase letter.
+          </p>
         </div>
 
         <button
@@ -209,6 +221,22 @@ function SignUpForm() {
           <span>{isSubmitting ? "Creating account..." : "Create Account"}</span>
         </button>
       </form>
+
+      <div className="relative my-6 flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-border" />
+        </div>
+        <span className="relative bg-card px-3 text-xs uppercase tracking-wider text-muted-foreground">
+          or continue with
+        </span>
+      </div>
+
+      <GoogleAuthButton
+        mode="sign-up"
+        role={role}
+        businessName={role === "vendor" ? businessName.trim() : undefined}
+        redirectTo={redirectTo}
+      />
 
       <p className="mt-6 text-center text-sm text-muted-foreground">
         Already have an account?{" "}

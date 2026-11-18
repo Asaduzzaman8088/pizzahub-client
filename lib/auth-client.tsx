@@ -21,12 +21,23 @@ export interface SignUpInput {
   businessName?: string
 }
 
+export interface GoogleAuthInput {
+  credential?: string
+  accessToken?: string
+  isDemo?: boolean
+  demoEmail?: string
+  demoName?: string
+  role?: "customer" | "vendor"
+  businessName?: string
+}
+
 interface AuthContextValue {
   user: User | null
   isPending: boolean
   refresh: () => Promise<User | null>
   signIn: (email: string, password: string) => Promise<User>
   signUp: (input: SignUpInput) => Promise<User>
+  signInWithGoogle: (input: GoogleAuthInput) => Promise<User>
   signOut: () => Promise<void>
 }
 
@@ -71,6 +82,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return data.user
   }, [])
 
+  const signInWithGoogle = useCallback(async (input: GoogleAuthInput) => {
+    const data = await apiFetch<{ user: User }>("/auth/google", {
+      method: "POST",
+      body: input,
+    })
+    setUser(data.user)
+    return data.user
+  }, [])
+
   const signOut = useCallback(async () => {
     try {
       await apiFetch("/auth/logout", { method: "POST" })
@@ -80,8 +100,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const value = useMemo(
-    () => ({ user, isPending, refresh, signIn, signUp, signOut }),
-    [user, isPending, refresh, signIn, signUp, signOut]
+    () => ({ user, isPending, refresh, signIn, signUp, signInWithGoogle, signOut }),
+    [user, isPending, refresh, signIn, signUp, signInWithGoogle, signOut]
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

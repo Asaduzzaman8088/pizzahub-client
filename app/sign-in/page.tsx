@@ -9,6 +9,7 @@ import { toast } from "sonner"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { buttonVariants } from "@/components/ui/button"
+import { GoogleAuthButton } from "@/components/google-auth-button"
 import { useAuth } from "@/lib/auth-client"
 import { cn } from "@/lib/utils"
 
@@ -119,6 +120,17 @@ function SignInForm() {
           <span>{isSubmitting ? "Signing in..." : "Sign In"}</span>
         </button>
       </form>
+
+      <div className="relative my-6 flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-border" />
+        </div>
+        <span className="relative bg-card px-3 text-xs uppercase tracking-wider text-muted-foreground">
+          or continue with
+        </span>
+      </div>
+
+      <GoogleAuthButton mode="sign-in" redirectTo={redirectTo} />
 
       <p className="mt-6 text-center text-sm text-muted-foreground">
         New to PizzaHub?{" "}
