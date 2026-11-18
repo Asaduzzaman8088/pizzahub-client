@@ -41,7 +41,7 @@ export default function VendorSubscriptionPage() {
 function SubscriptionContent() {
   const { data, isLoading, error, reload } = useApi<SubscriptionStatus>("/stripe/status")
   const searchParams = useSearchParams()
-  const [isWorking, setIsWorking] = useState<"checkout" | "demo" | null>(null)
+  const [isWorking, setIsWorking] = useState<"checkout" | null>(null)
 
   useEffect(() => {
     const checkout = searchParams.get("checkout")
@@ -65,19 +65,6 @@ function SubscriptionContent() {
       window.location.href = session.url
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not start checkout.")
-      setIsWorking(null)
-    }
-  }
-
-  const activateDemo = async () => {
-    setIsWorking("demo")
-    try {
-      await apiFetch("/stripe/demo-activate", { method: "POST" })
-      toast.success("Premium activated for 30 days (demo).")
-      await reload()
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Could not activate Premium.")
-    } finally {
       setIsWorking(null)
     }
   }
@@ -133,6 +120,10 @@ function SubscriptionContent() {
               <div className="mt-6 rounded-xl bg-emerald-100 px-4 py-3 text-sm font-bold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
                 You are on the Premium plan.
               </div>
+            ) : !data?.stripeConfigured ? (
+              <div className="mt-6 rounded-xl border border-amber-300/60 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800 dark:border-amber-900/40 dark:bg-amber-950/20 dark:text-amber-300">
+                Premium checkout is not configured yet. Please try again later.
+              </div>
             ) : (
               <div className="mt-6 space-y-3">
                 <button
@@ -147,19 +138,8 @@ function SubscriptionContent() {
                   )}
                   Upgrade with Stripe
                 </button>
-
-                {!data?.stripeConfigured && process.env.NODE_ENV !== "production" && (
-                  <button
-                    onClick={() => void activateDemo()}
-                    disabled={isWorking !== null}
-                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-brand/40 px-4 py-3 text-sm font-bold text-brand hover:bg-brand/5 disabled:opacity-50"
-                  >
-                    {isWorking === "demo" && <Loader2 className="size-4 animate-spin" />}
-                    Activate demo Premium (dev)
-                  </button>
-                )}
                 <p className="text-center text-[11px] text-muted-foreground">
-                  Stripe is {data?.stripeConfigured ? "configured" : "not configured on the server"}.
+                  Secure payment powered by Stripe.
                 </p>
               </div>
             )}
