@@ -199,7 +199,7 @@ export function DashboardShell({ role, title, description, children }: Dashboard
           </Link>
         </div>
 
-        <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-card/60 px-4 py-4 sm:px-6">
+        <header className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-3 border-b border-border bg-background/90 px-4 py-4 backdrop-blur-md sm:px-6">
           <div>
             <p className="text-xs font-bold tracking-wide text-brand uppercase">
               {ROLE_LABEL[user.role]} Dashboard
