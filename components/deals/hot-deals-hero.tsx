@@ -22,7 +22,7 @@ export function HotDealsHero() {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-sm font-semibold backdrop-blur-md">
           <Flame className="size-4 text-amber-300 animate-pulse" />
-          <span>Limited-Time Offers — Grab Them Before They're Gone!</span>
+          <span>Limited-Time Offers — Grab Them Before They&apos;re Gone!</span>
         </div>
 
         <h1 className="mt-5 font-heading text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl">

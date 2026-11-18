@@ -17,7 +17,7 @@ export function AboutCta() {
               Ready to Be Part of the Story?
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-white/85 leading-relaxed">
-              Whether you're a pizza lover looking for the real thing, or a neighborhood
+              Whether you&apos;re a pizza lover looking for the real thing, or a neighborhood
               kitchen ready to reach thousands of new customers — PizzaHub is built for you.
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">

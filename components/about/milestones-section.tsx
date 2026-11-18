@@ -61,7 +61,7 @@ export function MilestonesSection() {
             Our Milestones
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-            From a napkin sketch to a thriving national platform — here's how PizzaHub grew.
+            From a napkin sketch to a thriving national platform — here&apos;s how PizzaHub grew.
           </p>
         </div>
 

@@ -9,7 +9,7 @@ The modern Next.js client for **PizzaHub**, a full-stack multi-vendor pizza orde
 - **Animations:** Motion (Framer Motion)
 - **Notifications:** Sonner Toaster
 - **Theme:** Next-Themes (Light/Dark Mode support)
-- **Authentication:** Better Auth with Google OAuth & Credentials
+- **Authentication:** Server-issued JWT (httpOnly cookie) via the Express API
 
 ## ⚙️ Environment Variables Setup
 Copy `.env.example` to `.env.local`:
@@ -18,8 +18,6 @@ cp .env.example .env.local
 ```
 Fill in the following variables:
 - `NEXT_PUBLIC_API_URL`: Backend API base URL (e.g. `http://localhost:5000/api`)
-- `BETTER_AUTH_SECRET`: Secret token for Better Auth
-- `BETTER_AUTH_URL`: Base client URL (e.g. `http://localhost:3000`)
 - `NEXT_PUBLIC_IMGBB_API_KEY`: ImgBB API key for uploading pizza pictures
 
 ## 💻 Running Locally

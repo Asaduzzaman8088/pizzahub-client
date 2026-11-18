@@ -28,7 +28,7 @@ import { toast } from "sonner"
 
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { useSession, signOut } from "@/lib/auth-client"
+import { useAuth } from "@/lib/auth-client"
 
 export interface NavItem {
   label: string
@@ -52,8 +52,8 @@ export function Navbar() {
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  // Better Auth session hook
-  const { data: session, isPending } = useSession()
+  // Authenticated session provided by the server JWT API
+  const { user, isPending, signOut } = useAuth()
 
   // Close profile dropdown on outside click
   useEffect(() => {
@@ -88,8 +88,7 @@ export function Navbar() {
   }
 
   // Determine user info and role (default to "customer" if not set)
-  const user = session?.user
-  const userRole = ((user as { role?: string })?.role || "customer") as "customer" | "vendor" | "admin"
+  const userRole = (user?.role || "customer") as "customer" | "vendor" | "admin"
   const userName = user?.name || "Pizza Lover"
   const userEmail = user?.email || ""
   const userImage = user?.image || ""

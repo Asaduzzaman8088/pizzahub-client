@@ -14,7 +14,7 @@ export function OurStory() {
             <div className="mt-5 space-y-4 text-muted-foreground leading-relaxed">
               <p>
                 It started in 2021 when our co-founder Rafi — a lifelong pizza
-                obsessive — moved to a new city and couldn't find the authentic
+                obsessive — moved to a new city and couldn&apos;t find the authentic
                 wood-fired pies he grew up eating. Every chain tasted the same.
                 Every app showed him the same big-box options.
               </p>
@@ -23,7 +23,7 @@ export function OurStory() {
                 together they mapped out every independent pizzeria within 20
                 miles. The results were staggering — dozens of incredible
                 neighborhood kitchens, invisible online, turning away customers
-                daily simply because they couldn't afford their own delivery
+                daily simply because they couldn&apos;t afford their own delivery
                 infrastructure.
               </p>
               <p>

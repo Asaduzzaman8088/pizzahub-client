@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Clock, MessageSquare, Instagram, Facebook, Twitter } from "lucide-react"
+import { Mail, Phone, MapPin, Clock, MessageSquare, Camera, ThumbsUp, AtSign } from "lucide-react"
 
 const contactDetails = [
   {
@@ -46,9 +46,9 @@ const hours = [
 ]
 
 const socials = [
-  { icon: Instagram, label: "Instagram", href: "#", color: "hover:bg-pink-500/10 hover:text-pink-500" },
-  { icon: Facebook, label: "Facebook", href: "#", color: "hover:bg-sky-500/10 hover:text-sky-500" },
-  { icon: Twitter, label: "Twitter / X", href: "#", color: "hover:bg-slate-500/10 hover:text-slate-600 dark:hover:text-slate-300" },
+  { icon: Camera, label: "Instagram", href: "#", color: "hover:bg-pink-500/10 hover:text-pink-500" },
+  { icon: ThumbsUp, label: "Facebook", href: "#", color: "hover:bg-sky-500/10 hover:text-sky-500" },
+  { icon: AtSign, label: "Twitter / X", href: "#", color: "hover:bg-slate-500/10 hover:text-slate-600 dark:hover:text-slate-300" },
 ]
 
 export function ContactInfo() {

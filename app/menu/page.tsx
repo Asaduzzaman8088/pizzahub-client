@@ -19,6 +19,7 @@ import {
   ArrowUpDown,
   Sparkles,
   Check,
+  AlertTriangle,
 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -28,7 +29,7 @@ import { NewsletterSection } from "@/components/newsletter-section"
 import { ValuePropsSection } from "@/components/value-props-section"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { MENU_ITEMS, type MenuItem } from "@/lib/menu-data"
+import { useMenu } from "@/hooks/use-menu"
 
 const categories = [
   { id: "all", label: "All Styles" },
@@ -74,6 +75,8 @@ function MenuCatalog() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [wishlist, setWishlist] = useState<string[]>([])
 
+  const { items, isLoading, error, reload } = useMenu({ limit: 50 })
+
   // Sync state if query params change
   useEffect(() => {
     const qSearch = searchParams.get("search")
@@ -84,7 +87,7 @@ function MenuCatalog() {
 
   // Filter & Sort Logic
   const filteredItems = useMemo(() => {
-    let result = [...MENU_ITEMS]
+    let result = [...items]
 
     // Search query filter
     if (search.trim()) {
@@ -139,7 +142,7 @@ function MenuCatalog() {
     }
 
     return result
-  }, [search, category, selectedLocation, sortBy, onlyVegetarian, onlySpicy, onlyGlutenFree])
+  }, [items, search, category, selectedLocation, sortBy, onlyVegetarian, onlySpicy, onlyGlutenFree])
 
   const toggleWishlist = (id: string, name: string) => {
     if (wishlist.includes(id)) {
@@ -339,7 +342,44 @@ function MenuCatalog() {
       </div>
 
       {/* Pizza Grid or Empty State */}
-      {filteredItems.length === 0 ? (
+      {isLoading ? (
+        <div className="mt-10 grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div
+              key={index}
+              className="flex flex-col overflow-hidden rounded-3xl border border-border bg-card"
+            >
+              <div className="h-60 w-full animate-pulse bg-muted" />
+              <div className="space-y-3 p-6">
+                <div className="h-3 w-1/3 animate-pulse rounded bg-muted" />
+                <div className="h-5 w-2/3 animate-pulse rounded bg-muted" />
+                <div className="h-3 w-full animate-pulse rounded bg-muted" />
+                <div className="h-3 w-4/5 animate-pulse rounded bg-muted" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : error ? (
+        <div className="my-16 flex flex-col items-center justify-center rounded-3xl border border-dashed border-destructive/40 bg-card p-12 text-center">
+          <div className="flex size-16 items-center justify-center rounded-2xl bg-destructive/10 text-destructive">
+            <AlertTriangle className="size-8" />
+          </div>
+          <h3 className="mt-4 font-heading text-xl font-bold text-foreground">
+            We couldn&apos;t load the menu
+          </h3>
+          <p className="mt-2 max-w-md text-sm text-muted-foreground">{error}</p>
+          <button
+            onClick={() => void reload()}
+            className={cn(
+              buttonVariants(),
+              "mt-6 gap-2 bg-brand font-bold text-white shadow-md hover:bg-brand-hover"
+            )}
+          >
+            <RotateCcw className="size-4" />
+            <span>Try Again</span>
+          </button>
+        </div>
+      ) : filteredItems.length === 0 ? (
         <div className="my-16 flex flex-col items-center justify-center rounded-3xl border border-dashed border-border bg-card p-12 text-center">
           <div className="flex size-16 items-center justify-center rounded-2xl bg-brand/10 text-brand">
             <Search className="size-8" />

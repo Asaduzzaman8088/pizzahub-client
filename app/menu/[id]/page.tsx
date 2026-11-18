@@ -1,6 +1,6 @@
 "use client"
 
-import { use, useState } from "react"
+import { use, useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -24,6 +24,8 @@ import {
   MessageSquare,
   Plus,
   Minus,
+  Loader2,
+  RotateCcw,
 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -33,8 +35,9 @@ import { NewsletterSection } from "@/components/newsletter-section"
 import { ValuePropsSection } from "@/components/value-props-section"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { MENU_ITEMS, type MenuItem } from "@/lib/menu-data"
-import { useSession } from "@/lib/auth-client"
+import { useMenuItem, useMenu } from "@/hooks/use-menu"
+import { useAuth } from "@/lib/auth-client"
+import { apiFetch } from "@/lib/api"
 
 export default function PizzaDetailsPage({
   params,
@@ -43,10 +46,10 @@ export default function PizzaDetailsPage({
 }) {
   const resolvedParams = use(params)
   const router = useRouter()
-  const { data: session } = useSession()
+  const { user } = useAuth()
 
-  // Find pizza by id or fallback to first item
-  const pizza = MENU_ITEMS.find((p) => p.id === resolvedParams.id) || MENU_ITEMS[0]
+  const { item: pizza, isLoading, error, reload } = useMenuItem(resolvedParams.id)
+  const { items: allItems } = useMenu({ limit: 50 })
 
   const [activeImageIdx, setActiveImageIdx] = useState(0)
   const [isWishlisted, setIsWishlisted] = useState(false)
@@ -64,10 +67,62 @@ export default function PizzaDetailsPage({
   const [isSubmittingOrder, setIsSubmittingOrder] = useState(false)
 
   // User auth details
-  const user = session?.user
-  const userRole = (user as { role?: string })?.role || "customer"
+  const userRole = user?.role || "customer"
+
+  useEffect(() => {
+    if (!user || user.role !== "customer") {
+      setIsWishlisted(false)
+      return
+    }
+
+    let active = true
+    ;(async () => {
+      try {
+        const data = await apiFetch<{ itemIds: string[] }>("/wishlist")
+        if (active) setIsWishlisted(data.itemIds?.includes(resolvedParams.id) ?? false)
+      } catch {
+        if (active) setIsWishlisted(false)
+      }
+    })()
+
+    return () => {
+      active = false
+    }
+  }, [user, resolvedParams.id])
+
+  const handleToggleWishlist = async () => {
+    if (!pizza) return
+
+    if (!user) {
+      toast.error("Please sign in to save favorites.")
+      router.push(`/sign-in?redirect=/menu/${pizza.id}`)
+      return
+    }
+    if (user.role !== "customer") {
+      toast.error("Only customer accounts can save favorites.")
+      return
+    }
+
+    const nextState = !isWishlisted
+    setIsWishlisted(nextState)
+
+    try {
+      if (nextState) {
+        await apiFetch("/wishlist", { method: "POST", body: { itemId: pizza.id } })
+        toast.success("Added to your favorite pizzas!")
+      } else {
+        await apiFetch(`/wishlist/${pizza.id}`, { method: "DELETE" })
+        toast.info("Removed from your wishlist.")
+      }
+    } catch (err) {
+      setIsWishlisted(!nextState)
+      toast.error(err instanceof Error ? err.message : "Could not update your wishlist.")
+    }
+  }
 
   const handleOpenOrderModal = () => {
+    if (!pizza) return
+
     if (!user) {
       toast.error("Please sign in as a customer to place an order.")
       router.push(`/sign-in?redirect=/menu/${pizza.id}`)
@@ -84,8 +139,10 @@ export default function PizzaDetailsPage({
     setOrderModalOpen(true)
   }
 
-  const handleOrderSubmit = (e: React.FormEvent) => {
+  const handleOrderSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!pizza) return
 
     if (!deliveryAddress.trim()) {
       toast.error("Please provide your delivery address.")
@@ -93,19 +150,83 @@ export default function PizzaDetailsPage({
     }
 
     setIsSubmittingOrder(true)
-    setTimeout(() => {
-      setIsSubmittingOrder(false)
+    try {
+      await apiFetch("/orders", {
+        method: "POST",
+        body: {
+          itemId: pizza.id,
+          quantity,
+          deliveryDate,
+          deliveryAddress: deliveryAddress.trim(),
+          message: [deliveryTimeSlot, bakingNotes.trim()].filter(Boolean).join(" — "),
+        },
+      })
       setOrderModalOpen(false)
       toast.success(
-        `Order confirmed! ${quantity}x ${pizza.name} has been sent to ${pizza.vendorName}. Total: $${(pizza.price * quantity + pizza.deliveryFee).toFixed(2)}`
+        `Order confirmed! ${quantity}x ${pizza.name} has been sent to ${pizza.vendorName}.`
       )
-      // Redirect to orders dashboard
       router.push("/dashboard/customer/orders")
-    }, 900)
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Could not place your order.")
+    } finally {
+      setIsSubmittingOrder(false)
+    }
   }
 
   // Similar pizzas in same category or district
-  const relatedPizzas = MENU_ITEMS.filter((p) => p.id !== pizza.id).slice(0, 3)
+  const relatedPizzas = allItems.filter((p) => p.id !== pizza?.id).slice(0, 3)
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen flex-col bg-background text-foreground">
+        <Header />
+        <main className="flex flex-1 items-center justify-center">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Loader2 className="size-4 animate-spin" />
+            Loading pizza details...
+          </div>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
+
+  if (error || !pizza) {
+    return (
+      <div className="flex min-h-screen flex-col bg-background text-foreground">
+        <Header />
+        <main className="flex flex-1 flex-col items-center justify-center gap-4 px-4 text-center">
+          <div className="flex size-16 items-center justify-center rounded-2xl bg-destructive/10 text-destructive">
+            <AlertTriangle className="size-8" />
+          </div>
+          <h1 className="font-heading text-2xl font-bold text-foreground">Pizza not found</h1>
+          <p className="max-w-md text-sm text-muted-foreground">
+            {error || "This pizza may have been removed or is no longer available."}
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={() => void reload()}
+              className={cn(
+                buttonVariants(),
+                "gap-2 bg-brand font-bold text-white hover:bg-brand-hover"
+              )}
+            >
+              <RotateCcw className="size-4" />
+              Try Again
+            </button>
+            <Link
+              href="/menu"
+              className={cn(buttonVariants({ variant: "outline" }), "gap-2 font-bold")}
+            >
+              <ArrowLeft className="size-4" />
+              Back to Menu
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground transition-colors">
@@ -152,12 +273,7 @@ export default function PizzaDetailsPage({
                 </div>
 
                 <button
-                  onClick={() => {
-                    setIsWishlisted(!isWishlisted)
-                    toast.success(
-                      isWishlisted ? "Removed from wishlist" : "Added to your favorite pizzas! ❤️"
-                    )
-                  }}
+                  onClick={handleToggleWishlist}
                   aria-label="Wishlist"
                   className="absolute top-4 right-4 flex size-10 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-md transition hover:bg-white hover:text-rose-500"
                 >

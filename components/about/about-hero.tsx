@@ -21,8 +21,8 @@ export function AboutHero() {
           <span className="text-amber-300">with Artisan Kitchens</span>
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-lg text-white/85 leading-relaxed">
-          PizzaHub was born from a simple belief — that the world's best pizzas
-          aren't hiding in chain restaurants, they're crafted with love in
+          PizzaHub was born from a simple belief — that the world&apos;s best pizzas
+          aren&apos;t hiding in chain restaurants, they&apos;re crafted with love in
           neighborhood kitchens around the corner. We built the platform to
           bridge that gap.
         </p>
