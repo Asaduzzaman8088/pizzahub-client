@@ -5,6 +5,7 @@ import { DollarSign, Package, Shield, Users } from "lucide-react"
 
 import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { OrdersTable } from "@/components/dashboard/orders-table"
+import { MiniBarChart } from "@/components/dashboard/mini-bar-chart"
 import { ErrorBlock, LoadingBlock, StatCard } from "@/components/dashboard/ui"
 import { useApi } from "@/hooks/use-api"
 import { buttonVariants } from "@/components/ui/button"
@@ -20,6 +21,7 @@ interface AdminDashboardResponse {
     revenue: number
     totalItems: number
     pendingItems: number
+    totalTransactions: number
   }
   recentOrders: Order[]
 }
@@ -67,6 +69,33 @@ export default function AdminDashboardPage() {
               hint={`${stats?.totalItems ?? 0} total listings`}
               accent="amber"
               icon={<Shield className="size-4" />}
+            />
+            <StatCard
+              label="Transactions"
+              value={stats?.totalTransactions ?? 0}
+              hint="Vendor subscription payments"
+              accent="purple"
+              icon={<DollarSign className="size-4" />}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <MiniBarChart
+              title="Orders by status"
+              data={[
+                { label: "Pending", value: stats?.ordersByStatus.pending ?? 0, color: "bg-amber-500" },
+                { label: "Accepted", value: stats?.ordersByStatus.accepted ?? 0, color: "bg-emerald-500" },
+                { label: "Rejected", value: stats?.ordersByStatus.rejected ?? 0, color: "bg-rose-500" },
+                { label: "Cancelled", value: stats?.ordersByStatus.cancelled ?? 0, color: "bg-slate-400" },
+              ]}
+            />
+            <MiniBarChart
+              title="Users by role"
+              data={[
+                { label: "Customers", value: stats?.usersByRole.customer ?? 0, color: "bg-emerald-500" },
+                { label: "Vendors", value: stats?.usersByRole.vendor ?? 0, color: "bg-amber-500" },
+                { label: "Admins", value: stats?.usersByRole.admin ?? 0, color: "bg-purple-500" },
+              ]}
             />
           </div>
 

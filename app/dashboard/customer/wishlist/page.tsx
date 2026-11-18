@@ -9,6 +9,7 @@ import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { EmptyBlock, ErrorBlock, LoadingBlock } from "@/components/dashboard/ui"
 import { useApi } from "@/hooks/use-api"
 import { apiFetch } from "@/lib/api"
+import { useWishlist } from "@/lib/wishlist-client"
 import type { MenuItem } from "@/lib/types"
 
 interface WishlistResponse {
@@ -17,12 +18,13 @@ interface WishlistResponse {
 
 export default function CustomerWishlistPage() {
   const { data, isLoading, error, reload } = useApi<WishlistResponse>("/wishlist")
+  const { refresh: refreshWishlist } = useWishlist()
 
   const remove = async (itemId: string) => {
     try {
       await apiFetch(`/wishlist/${itemId}`, { method: "DELETE" })
       toast.info("Removed from your wishlist.")
-      await reload()
+      await Promise.all([reload(), refreshWishlist()])
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not remove the item.")
     }
@@ -72,7 +74,7 @@ export default function CustomerWishlistPage() {
                 <p className="mt-1 text-xs text-muted-foreground">{item.vendorName}</p>
                 <div className="mt-3 flex items-center gap-2">
                   <Link
-                    href={`/menu/${item.id}`}
+                    href={`/menu/${item.id}?order=1`}
                     className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-brand px-3 py-2 text-xs font-bold text-white hover:bg-brand-hover"
                   >
                     <Heart className="size-3.5" />

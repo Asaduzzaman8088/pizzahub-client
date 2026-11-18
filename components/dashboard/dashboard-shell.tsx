@@ -4,12 +4,14 @@ import { useEffect, type ReactNode } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import {
+  CreditCard,
   Heart,
   LayoutDashboard,
   Loader2,
   LogOut,
   Pizza,
   PlusCircle,
+  Settings,
   ShoppingBag,
   Shield,
   Sparkles,
@@ -34,17 +36,22 @@ const NAV_LINKS: Record<Role, NavLink[]> = {
     { label: "Overview", href: "/dashboard/customer", icon: <LayoutDashboard className="size-4" /> },
     { label: "My Orders", href: "/dashboard/customer/orders", icon: <ShoppingBag className="size-4" /> },
     { label: "Wishlist", href: "/dashboard/customer/wishlist", icon: <Heart className="size-4" /> },
+    { label: "Profile Settings", href: "/dashboard/profile", icon: <Settings className="size-4" /> },
   ],
   vendor: [
     { label: "Overview", href: "/dashboard/vendor", icon: <LayoutDashboard className="size-4" /> },
     { label: "My Menu", href: "/dashboard/vendor/menu", icon: <Pizza className="size-4" /> },
     { label: "Add Item", href: "/dashboard/vendor/add-item", icon: <PlusCircle className="size-4" /> },
+    { label: "Customer Orders", href: "/dashboard/vendor/orders", icon: <ShoppingBag className="size-4" /> },
     { label: "Subscription", href: "/dashboard/vendor/subscription", icon: <Sparkles className="size-4" /> },
+    { label: "Profile Settings", href: "/dashboard/profile", icon: <Settings className="size-4" /> },
   ],
   admin: [
     { label: "Overview", href: "/dashboard/admin", icon: <LayoutDashboard className="size-4" /> },
     { label: "Users", href: "/dashboard/admin/users", icon: <Users className="size-4" /> },
     { label: "Menu Moderation", href: "/dashboard/admin/menu", icon: <Pizza className="size-4" /> },
+    { label: "Transactions", href: "/dashboard/admin/transactions", icon: <CreditCard className="size-4" /> },
+    { label: "Profile Settings", href: "/dashboard/profile", icon: <Settings className="size-4" /> },
   ],
 }
 

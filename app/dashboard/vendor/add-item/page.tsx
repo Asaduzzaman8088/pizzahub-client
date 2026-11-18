@@ -1,22 +1,23 @@
 "use client"
 
-import { useState } from "react"
+import Image from "next/image"
+import { useRef, useState } from "react"
 import { useRouter } from "next/navigation"
-import { ImagePlus, Loader2, PlusCircle } from "lucide-react"
+import { ImagePlus, Loader2, PlusCircle, Trash2, UploadCloud } from "lucide-react"
 import { toast } from "sonner"
 
 import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { apiFetch } from "@/lib/api"
+import { uploadToImgbb } from "@/lib/imgbb"
 import type { MenuCategory } from "@/lib/types"
 
 const CATEGORIES: { value: MenuCategory; label: string }[] = [
-  { value: "neapolitan", label: "Neapolitan Wood-Fired" },
-  { value: "new-york", label: "New York Foldable" },
-  { value: "deep-dish", label: "Chicago Deep Dish" },
-  { value: "detroit", label: "Detroit Square" },
-  { value: "gourmet", label: "Gourmet White" },
-  { value: "vegan", label: "Vegan & Plant-Based" },
-  { value: "gluten-free", label: "Gluten-Free Cauliflower" },
+  { value: "classic", label: "Classic Pizzas" },
+  { value: "vegetarian", label: "Vegetarian Pizzas" },
+  { value: "meat-lovers", label: "Meat Lovers" },
+  { value: "specialty", label: "Specialty & Gourmet Pizzas" },
+  { value: "sides", label: "Sides & Appetizers" },
+  { value: "beverages", label: "Beverages & Desserts" },
 ]
 
 export default function AddMenuItemPage() {
@@ -24,12 +25,11 @@ export default function AddMenuItemPage() {
 
   const [form, setForm] = useState({
     itemName: "",
-    category: "neapolitan" as MenuCategory,
+    category: "classic" as MenuCategory,
     description: "",
     longDescription: "",
     price: "",
     location: "",
-    images: "",
     deliveryTime: "30-40 min",
     deliveryFee: "0",
     doughFermentation: "",
@@ -42,12 +42,41 @@ export default function AddMenuItemPage() {
     isGlutenFree: false,
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [imageUrls, setImageUrls] = useState<string[]>([])
+  const [isUploading, setIsUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const update = (key: keyof typeof form, value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }))
 
+  const handleFiles = async (files: FileList | null) => {
+    if (!files || files.length === 0) return
+    setIsUploading(true)
+    try {
+      const uploaded: string[] = []
+      for (const file of Array.from(files)) {
+        uploaded.push(await uploadToImgbb(file))
+      }
+      setImageUrls((prev) => [...prev, ...uploaded])
+      toast.success(
+        `${uploaded.length} image${uploaded.length === 1 ? "" : "s"} uploaded successfully.`
+      )
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not upload the image.")
+    } finally {
+      setIsUploading(false)
+      if (fileInputRef.current) fileInputRef.current.value = ""
+    }
+  }
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
+
+    if (imageUrls.length === 0) {
+      toast.error("Please upload at least one pizza image.")
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
@@ -57,10 +86,7 @@ export default function AddMenuItemPage() {
           ...form,
           price: Number(form.price),
           deliveryFee: Number(form.deliveryFee) || 0,
-          images: form.images
-            .split(/[\n,]/)
-            .map((url) => url.trim())
-            .filter(Boolean),
+          images: imageUrls,
           ingredients: form.ingredients
             .split(/[\n,]/)
             .map((ingredient) => ingredient.trim())
@@ -209,16 +235,53 @@ export default function AddMenuItemPage() {
           <div className="sm:col-span-2">
             <label className="flex items-center gap-2 text-xs font-bold text-foreground">
               <ImagePlus className="size-4 text-brand" />
-              Image URLs * <span className="font-normal text-muted-foreground">(one per line)</span>
+              Pizza images *{" "}
+              <span className="font-normal text-muted-foreground">(uploaded to ImgBB)</span>
             </label>
-            <textarea
-              required
-              rows={3}
-              value={form.images}
-              onChange={(e) => update("images", e.target.value)}
-              placeholder="https://images.unsplash.com/..."
-              className={`mt-1 resize-none ${inputClass}`}
+
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(e) => void handleFiles(e.target.files)}
+              className="hidden"
             />
+
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-brand/40 bg-brand/5 px-4 py-6 text-sm font-bold text-brand transition hover:bg-brand/10 disabled:opacity-50"
+            >
+              {isUploading ? (
+                <Loader2 className="size-5 animate-spin" />
+              ) : (
+                <UploadCloud className="size-5" />
+              )}
+              {isUploading ? "Uploading to ImgBB..." : "Upload pizza images"}
+            </button>
+
+            {imageUrls.length > 0 && (
+              <div className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-4">
+                {imageUrls.map((url) => (
+                  <div
+                    key={url}
+                    className="group relative aspect-square overflow-hidden rounded-xl border border-border bg-muted"
+                  >
+                    <Image src={url} alt="Uploaded pizza" fill sizes="120px" className="object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => setImageUrls((prev) => prev.filter((item) => item !== url))}
+                      aria-label="Remove image"
+                      className="absolute top-1 right-1 flex size-6 items-center justify-center rounded-full bg-black/60 text-white transition hover:bg-rose-600"
+                    >
+                      <Trash2 className="size-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="sm:col-span-2">
@@ -258,7 +321,7 @@ export default function AddMenuItemPage() {
         <div className="flex items-center gap-3">
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isUploading}
             className="flex items-center gap-2 rounded-xl bg-brand px-5 py-2.5 text-sm font-bold text-white shadow-md hover:bg-brand-hover disabled:opacity-50"
           >
             {isSubmitting ? (

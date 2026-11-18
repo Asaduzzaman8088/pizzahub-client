@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useState } from "react"
-import { Check, Loader2, Sparkles, X } from "lucide-react"
+import { Check, Loader2, Search, Sparkles, Trash2, X } from "lucide-react"
 import { toast } from "sonner"
 
 import { DashboardShell } from "@/components/dashboard/dashboard-shell"
@@ -25,10 +25,29 @@ const STATUS_STYLES: Record<MenuStatus, string> = {
 
 export default function AdminMenuPage() {
   const [status, setStatus] = useState("")
+  const [search, setSearch] = useState("")
   const [busyId, setBusyId] = useState<string | null>(null)
 
-  const path = status ? `/menu/admin/all?status=${status}` : "/menu/admin/all"
+  const params = new URLSearchParams()
+  if (status) params.set("status", status)
+  if (search.trim()) params.set("search", search.trim())
+  const query = params.toString()
+  const path = query ? `/menu/admin/all?${query}` : "/menu/admin/all"
   const { data, isLoading, error, reload } = useApi<AdminMenuResponse>(path)
+
+  const removeItem = async (item: MenuItem) => {
+    if (!window.confirm(`Delete "${item.name}" permanently? This cannot be undone.`)) return
+    setBusyId(item.id)
+    try {
+      await apiFetch(`/menu/${item.id}`, { method: "DELETE" })
+      toast.success("Menu item deleted.")
+      await reload()
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not delete the item.")
+    } finally {
+      setBusyId(null)
+    }
+  }
 
   const act = async (item: MenuItem, body: Record<string, unknown>, message: string) => {
     setBusyId(item.id)
@@ -52,6 +71,16 @@ export default function AdminMenuPage() {
       title="Menu Moderation"
       description="Approve vendor submissions and curate featured pizzas."
     >
+      <div className="mb-4 relative">
+        <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search menu items by name..."
+          className="w-full rounded-xl border border-input bg-card py-2.5 pr-3 pl-10 text-sm text-foreground outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+        />
+      </div>
+
       <div className="mb-5 flex flex-wrap gap-2">
         {[
           { value: "", label: "All" },
@@ -170,6 +199,14 @@ export default function AdminMenuPage() {
                   >
                     <Sparkles className="size-3" />
                     {item.isFeatured ? "Unfeature" : "Feature"}
+                  </button>
+                  <button
+                    onClick={() => void removeItem(item)}
+                    disabled={isBusy}
+                    className="flex items-center gap-1 rounded-lg border border-destructive/40 px-3 py-1.5 text-[11px] font-bold text-destructive hover:bg-destructive/10 disabled:opacity-50"
+                  >
+                    <Trash2 className="size-3" />
+                    Delete
                   </button>
                 </div>
               </div>

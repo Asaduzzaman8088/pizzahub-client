@@ -7,6 +7,7 @@ import { toast } from "sonner"
 
 import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { OrdersTable } from "@/components/dashboard/orders-table"
+import { MiniBarChart } from "@/components/dashboard/mini-bar-chart"
 import { ErrorBlock, LoadingBlock, StatCard } from "@/components/dashboard/ui"
 import { useApi } from "@/hooks/use-api"
 import { apiFetch } from "@/lib/api"
@@ -91,6 +92,26 @@ export default function VendorDashboardPage() {
               }
               accent="purple"
               icon={<Package className="size-4" />}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <MiniBarChart
+              title="Orders by status"
+              data={[
+                { label: "Pending", value: stats?.ordersByStatus.pending ?? 0, color: "bg-amber-500" },
+                { label: "Accepted", value: stats?.ordersByStatus.accepted ?? 0, color: "bg-emerald-500" },
+                { label: "Rejected", value: stats?.ordersByStatus.rejected ?? 0, color: "bg-rose-500" },
+                { label: "Cancelled", value: stats?.ordersByStatus.cancelled ?? 0, color: "bg-slate-400" },
+              ]}
+            />
+            <MiniBarChart
+              title="Menu items"
+              data={[
+                { label: "Approved", value: stats?.approvedItems ?? 0, color: "bg-emerald-500" },
+                { label: "Pending", value: stats?.pendingItems ?? 0, color: "bg-amber-500" },
+                { label: "Rejected", value: stats?.rejectedItems ?? 0, color: "bg-rose-500" },
+              ]}
             />
           </div>
 

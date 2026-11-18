@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
-import { PlusCircle, Trash2 } from "lucide-react"
+import { Pencil, PlusCircle, Power, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 
 import { DashboardShell } from "@/components/dashboard/dashboard-shell"
@@ -28,6 +28,23 @@ const STATUS_STYLES: Record<MenuStatus, string> = {
 export default function VendorMenuPage() {
   const { data, isLoading, error, reload } = useApi<VendorMenuResponse>("/menu/vendor/mine")
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [togglingId, setTogglingId] = useState<string | null>(null)
+
+  const toggleAvailability = async (item: MenuItem) => {
+    setTogglingId(item.id)
+    try {
+      await apiFetch(`/menu/${item.id}/availability`, {
+        method: "PATCH",
+        body: { isAvailable: !item.isAvailable },
+      })
+      toast.success(item.isAvailable ? "Item marked unavailable." : "Item marked available.")
+      await reload()
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not update availability.")
+    } finally {
+      setTogglingId(null)
+    }
+  }
 
   const remove = async (item: MenuItem) => {
     if (!window.confirm(`Delete "${item.name}"? This cannot be undone.`)) return
@@ -108,6 +125,11 @@ export default function VendorMenuPage() {
                       Featured
                     </span>
                   )}
+                  {!item.isAvailable && (
+                    <span className="rounded-full bg-slate-200 px-2.5 py-0.5 text-[10px] font-bold text-slate-700 uppercase dark:bg-slate-800 dark:text-slate-300">
+                      Unavailable
+                    </span>
+                  )}
                 </div>
                 <p className="mt-0.5 text-xs text-muted-foreground">
                   {item.categoryLabel} &middot; {item.location || item.vendorLocation}
@@ -119,13 +141,28 @@ export default function VendorMenuPage() {
                 <span className="font-heading text-lg font-black text-brand">
                   ${item.price.toFixed(2)}
                 </span>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap justify-end gap-2">
                   <Link
                     href={`/menu/${item.id}`}
                     className="rounded-lg border border-border px-3 py-1.5 text-[11px] font-bold text-muted-foreground hover:text-foreground"
                   >
                     View
                   </Link>
+                  <Link
+                    href={`/dashboard/vendor/menu/${item.id}/edit`}
+                    className="flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-[11px] font-bold text-muted-foreground hover:text-foreground"
+                  >
+                    <Pencil className="size-3" />
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => void toggleAvailability(item)}
+                    disabled={togglingId === item.id}
+                    className="flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-[11px] font-bold text-muted-foreground hover:text-foreground disabled:opacity-50"
+                  >
+                    <Power className="size-3" />
+                    {item.isAvailable ? "Mark unavailable" : "Mark available"}
+                  </button>
                   <button
                     onClick={() => void remove(item)}
                     disabled={deletingId === item.id}
