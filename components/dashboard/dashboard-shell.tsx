@@ -121,19 +121,37 @@ export function DashboardShell({ role, title, description, children }: Dashboard
   return (
     <div className="flex min-h-screen bg-background text-foreground">
       <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-card/60 lg:flex">
-        <Link href="/" className="flex items-center gap-2 border-b border-border px-5 py-5">
-          <span className="flex size-9 items-center justify-center rounded-xl bg-white p-1 shadow-sm ring-1 ring-black/5">
+        <Link
+          href="/"
+          aria-label="PizzaHub Homepage"
+          className="flex items-center gap-3 border-b border-border px-5 py-5"
+        >
+          <span className="relative flex size-11 shrink-0 items-center justify-center rounded-xl bg-white p-1.5 shadow-sm ring-1 ring-black/5">
             <Image
               src="/images/gourmet-slice-logo.png"
               alt="PizzaHub logo"
               width={96}
               height={64}
-              sizes="36px"
+              sizes="44px"
               className="h-full w-full object-contain"
             />
+            <span className="absolute -top-1 -right-1 flex size-2.5">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-secondary opacity-75" />
+              <span className="relative inline-flex size-2.5 rounded-full bg-brand-secondary" />
+            </span>
           </span>
-          <span className="font-heading text-xl font-black">
-            Pizza<span className="text-brand">Hub</span>
+          <span className="flex min-w-0 flex-col">
+            <span className="flex items-center gap-1.5">
+              <span className="font-heading text-xl font-black tracking-tight">
+                Pizza<span className="text-brand">Hub</span>
+              </span>
+              <span className="rounded-md bg-brand/10 px-1.5 py-0.5 text-[9px] font-bold text-brand uppercase">
+                Artisan
+              </span>
+            </span>
+            <span className="-mt-0.5 truncate text-[10px] font-medium tracking-wider text-muted-foreground">
+              Wood-Fired &amp; Delivered Hot
+            </span>
           </span>
         </Link>
 
