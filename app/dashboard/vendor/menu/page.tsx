@@ -10,6 +10,7 @@ import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { EmptyBlock, ErrorBlock, LoadingBlock } from "@/components/dashboard/ui"
 import { useApi } from "@/hooks/use-api"
 import { apiFetch } from "@/lib/api"
+import { confirmAction } from "@/lib/confirm"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import type { MenuItem, MenuStatus } from "@/lib/types"
@@ -46,8 +47,7 @@ export default function VendorMenuPage() {
     }
   }
 
-  const remove = async (item: MenuItem) => {
-    if (!window.confirm(`Delete "${item.name}"? This cannot be undone.`)) return
+  const performRemove = async (item: MenuItem) => {
     setDeletingId(item.id)
     try {
       await apiFetch(`/menu/${item.id}`, { method: "DELETE" })
@@ -58,6 +58,12 @@ export default function VendorMenuPage() {
     } finally {
       setDeletingId(null)
     }
+  }
+
+  const remove = (item: MenuItem) => {
+    confirmAction(`Delete "${item.name}"? This cannot be undone.`, () => {
+      void performRemove(item)
+    })
   }
 
   const items = data?.items ?? []

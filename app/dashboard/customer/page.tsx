@@ -71,6 +71,24 @@ export default function CustomerDashboardPage() {
             />
           </div>
 
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {[
+              { label: "Pending", value: stats?.ordersByStatus.pending ?? 0, className: "text-amber-600" },
+              { label: "Accepted", value: stats?.ordersByStatus.accepted ?? 0, className: "text-emerald-600" },
+              { label: "Rejected", value: stats?.ordersByStatus.rejected ?? 0, className: "text-rose-600" },
+              { label: "Cancelled", value: stats?.ordersByStatus.cancelled ?? 0, className: "text-slate-500" },
+            ].map((item) => (
+              <div key={item.label} className="rounded-xl border border-border bg-card px-4 py-3">
+                <p className="text-[11px] font-bold tracking-wide text-muted-foreground uppercase">
+                  {item.label}
+                </p>
+                <p className={`mt-1 font-heading text-2xl font-black ${item.className}`}>
+                  {item.value}
+                </p>
+              </div>
+            ))}
+          </div>
+
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <MiniBarChart
               title="My orders by status"

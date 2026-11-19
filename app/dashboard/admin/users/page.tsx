@@ -8,6 +8,7 @@ import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { EmptyBlock, ErrorBlock, LoadingBlock } from "@/components/dashboard/ui"
 import { useApi } from "@/hooks/use-api"
 import { apiFetch } from "@/lib/api"
+import { confirmAction } from "@/lib/confirm"
 import { useAuth } from "@/lib/auth-client"
 import { cn } from "@/lib/utils"
 import type { Role, User } from "@/lib/types"
@@ -48,8 +49,7 @@ export default function AdminUsersPage() {
     }
   }
 
-  const deleteUser = async (user: User) => {
-    if (!window.confirm(`Delete ${user.name} and all related data? This cannot be undone.`)) return
+  const performDeleteUser = async (user: User) => {
     setBusyId(user.id)
     try {
       await apiFetch(`/admin/users/${user.id}`, { method: "DELETE" })
@@ -60,6 +60,12 @@ export default function AdminUsersPage() {
     } finally {
       setBusyId(null)
     }
+  }
+
+  const deleteUser = (user: User) => {
+    confirmAction(`Delete ${user.name} and all related data? This cannot be undone.`, () => {
+      void performDeleteUser(user)
+    })
   }
 
   const users = data?.users ?? []

@@ -9,6 +9,7 @@ import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { EmptyBlock, ErrorBlock, LoadingBlock } from "@/components/dashboard/ui"
 import { useApi } from "@/hooks/use-api"
 import { apiFetch } from "@/lib/api"
+import { confirmAction } from "@/lib/confirm"
 import { cn } from "@/lib/utils"
 import type { MenuItem, MenuStatus } from "@/lib/types"
 
@@ -35,8 +36,7 @@ export default function AdminMenuPage() {
   const path = query ? `/menu/admin/all?${query}` : "/menu/admin/all"
   const { data, isLoading, error, reload } = useApi<AdminMenuResponse>(path)
 
-  const removeItem = async (item: MenuItem) => {
-    if (!window.confirm(`Delete "${item.name}" permanently? This cannot be undone.`)) return
+  const performRemoveItem = async (item: MenuItem) => {
     setBusyId(item.id)
     try {
       await apiFetch(`/menu/${item.id}`, { method: "DELETE" })
@@ -47,6 +47,12 @@ export default function AdminMenuPage() {
     } finally {
       setBusyId(null)
     }
+  }
+
+  const removeItem = (item: MenuItem) => {
+    confirmAction(`Delete "${item.name}" permanently? This cannot be undone.`, () => {
+      void performRemoveItem(item)
+    })
   }
 
   const act = async (item: MenuItem, body: Record<string, unknown>, message: string) => {

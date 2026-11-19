@@ -76,9 +76,9 @@ export default function VendorDashboardPage() {
               icon={<ShoppingBag className="size-4" />}
             />
             <StatCard
-              label="Approved Items"
-              value={stats?.approvedItems ?? 0}
-              hint={`${stats?.pendingItems ?? 0} pending review`}
+              label="Menu Items"
+              value={stats?.totalItems ?? 0}
+              hint={`${stats?.approvedItems ?? 0} approved · ${stats?.pendingItems ?? 0} pending`}
               accent="amber"
               icon={<Package className="size-4" />}
             />

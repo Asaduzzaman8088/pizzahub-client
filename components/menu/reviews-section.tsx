@@ -8,6 +8,7 @@ import { toast } from "sonner"
 
 import { useApi } from "@/hooks/use-api"
 import { apiFetch } from "@/lib/api"
+import { confirmAction } from "@/lib/confirm"
 import { useAuth } from "@/lib/auth-client"
 import { cn } from "@/lib/utils"
 import type { Review } from "@/lib/types"
@@ -150,8 +151,7 @@ export function ReviewsSection({ itemId, onReviewChange }: ReviewsSectionProps) 
     onReviewChange?.()
   }
 
-  const removeReview = async (review: Review) => {
-    if (!window.confirm("Delete this review? This cannot be undone.")) return
+  const performRemoveReview = async (review: Review) => {
     setDeletingId(review.id)
     try {
       await apiFetch(`/reviews/${review.id}`, { method: "DELETE" })
@@ -162,6 +162,12 @@ export function ReviewsSection({ itemId, onReviewChange }: ReviewsSectionProps) 
     } finally {
       setDeletingId(null)
     }
+  }
+
+  const removeReview = (review: Review) => {
+    confirmAction("Delete this review? This cannot be undone.", () => {
+      void performRemoveReview(review)
+    })
   }
 
   return (
