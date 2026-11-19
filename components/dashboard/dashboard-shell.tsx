@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, type ReactNode } from "react"
+import { useEffect, useRef, type ReactNode } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import {
@@ -73,12 +73,35 @@ export function DashboardShell({ role, title, description, children }: Dashboard
   const router = useRouter()
   const pathname = usePathname()
   const { user, isPending, signOut } = useAuth()
+  const headerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     if (!isPending && !user) {
       router.replace(`/sign-in?redirect=${encodeURIComponent(pathname)}`)
     }
   }, [isPending, user, router, pathname])
+
+  useEffect(() => {
+    const header = headerRef.current
+    if (!header) return
+
+    const updateHeight = () => {
+      document.documentElement.style.setProperty(
+        "--dashboard-header-height",
+        `${header.getBoundingClientRect().height}px`
+      )
+    }
+
+    updateHeight()
+    const observer = new ResizeObserver(updateHeight)
+    observer.observe(header)
+    window.addEventListener("resize", updateHeight)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener("resize", updateHeight)
+    }
+  }, [user])
 
   if (isPending || !user) {
     return (
@@ -199,7 +222,10 @@ export function DashboardShell({ role, title, description, children }: Dashboard
           </Link>
         </div>
 
-        <header className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-3 border-b border-border bg-background/90 px-4 py-4 backdrop-blur-md sm:px-6">
+        <header
+          ref={headerRef}
+          className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-3 border-b border-border bg-background/90 px-4 py-4 backdrop-blur-md sm:px-6"
+        >
           <div>
             <p className="text-xs font-bold tracking-wide text-brand uppercase">
               {ROLE_LABEL[user.role]} Dashboard
@@ -242,7 +268,10 @@ export function DashboardShell({ role, title, description, children }: Dashboard
           </div>
         </header>
 
-        <div className="border-b border-border bg-card/30 px-4 py-2 lg:hidden">
+        <div
+          className="sticky z-20 border-b border-border bg-background/95 px-4 py-2 backdrop-blur-md lg:hidden"
+          style={{ top: "var(--dashboard-header-height, 0px)" }}
+        >
           <nav className="flex gap-1 overflow-x-auto">
             {links.map((link) => {
               const active = pathname === link.href
