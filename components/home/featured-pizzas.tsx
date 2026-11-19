@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { AlertTriangle, Clock, Heart, Loader2, RotateCcw, ShoppingBag, Star, Store } from "lucide-react"
+import { AlertTriangle, Clock, Heart, Loader2, MapPin, RotateCcw, ShoppingBag, Star, Store } from "lucide-react"
 
 import { buttonVariants } from "@/components/ui/button"
 import { useMenu } from "@/hooks/use-menu"
@@ -177,6 +177,11 @@ export function FeaturedPizzas() {
                             </span>
                           )}
                         </div>
+                      </div>
+
+                      <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
+                        <MapPin className="size-3 text-brand" />
+                        <span className="truncate">{pizza.vendorLocation}</span>
                       </div>
 
                       <h3 className="mt-3 font-heading text-xl font-bold tracking-tight text-foreground transition group-hover:text-brand">

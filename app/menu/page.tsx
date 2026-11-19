@@ -473,6 +473,11 @@ function MenuCatalog() {
                       </div>
                     </div>
 
+                    <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
+                      <MapPin className="size-3 text-brand" />
+                      <span className="truncate">{pizza.vendorLocation}</span>
+                    </div>
+
                     {/* Title */}
                     <Link href={`/menu/${pizza.id}`}>
                       <h3 className="mt-3 font-heading text-xl font-bold tracking-tight text-foreground transition group-hover:text-brand">

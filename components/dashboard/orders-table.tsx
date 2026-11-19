@@ -78,6 +78,11 @@ export function OrdersTable({
                   ({order.customer.email})
                 </p>
               )}
+              {order.message && (
+                <p className="mt-1 text-xs italic text-muted-foreground">
+                  &ldquo;{order.message}&rdquo;
+                </p>
+              )}
               {order.deliveryAddress && (
                 <p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
                   <MapPin className="size-3" />
