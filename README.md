@@ -115,7 +115,7 @@ Seeded by the server (`npm run seed`):
 
 | Role | Email | Password |
 | --- | --- | --- |
-| Admin | `admin@pizzahub.com` (or `ADMIN_EMAIL`) | `Admin@123` (or `ADMIN_PASSWORD`) |
+| Admin | `admin@pizzahub.com` | `#Admin@2026` (live password; seed default is `Admin@123`) |
 | Vendor | `vendor@pizzahub.com` | `Vendor@123` |
 | Customer | `customer@pizzahub.com` | `Customer@123` |
 
