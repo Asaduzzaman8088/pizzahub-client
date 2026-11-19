@@ -120,7 +120,7 @@ export function DashboardShell({ role, title, description, children }: Dashboard
 
   return (
     <div className="flex min-h-screen bg-background text-foreground">
-      <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-card/60 lg:flex">
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-card/60 lg:sticky lg:top-0 lg:flex lg:h-screen">
         <Link
           href="/"
           aria-label="PizzaHub Homepage"
@@ -142,7 +142,7 @@ export function DashboardShell({ role, title, description, children }: Dashboard
           </span>
         </Link>
 
-        <nav className="flex-1 space-y-1 p-3">
+        <nav className="min-h-0 flex-1 space-y-1 overflow-y-auto p-3">
           {links.map((link) => {
             const active = pathname === link.href
             return (
