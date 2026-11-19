@@ -19,6 +19,7 @@ export interface SignUpInput {
   password: string
   role: "customer" | "vendor"
   businessName?: string
+  image?: string
 }
 
 export interface GoogleAuthInput {

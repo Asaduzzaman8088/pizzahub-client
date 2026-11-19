@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useState } from "react"
-import { Check, Loader2, Search, Sparkles, Trash2, X } from "lucide-react"
+import { Check, Loader2, PowerOff, Search, Sparkles, Trash2, X } from "lucide-react"
 import { toast } from "sonner"
 
 import { DashboardShell } from "@/components/dashboard/dashboard-shell"
@@ -200,6 +200,18 @@ export default function AdminMenuPage() {
                     <Sparkles className="size-3" />
                     {item.isFeatured ? "Unfeature" : "Feature"}
                   </button>
+                  {item.status !== "inactive" && (
+                    <button
+                      onClick={() =>
+                        void act(item, { status: "inactive" }, "Item marked inactive.")
+                      }
+                      disabled={isBusy}
+                      className="flex items-center gap-1 rounded-lg border border-slate-300 px-3 py-1.5 text-[11px] font-bold text-slate-600 hover:bg-slate-50 disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-900"
+                    >
+                      <PowerOff className="size-3" />
+                      Inactive
+                    </button>
+                  )}
                   <button
                     onClick={() => void removeItem(item)}
                     disabled={isBusy}
