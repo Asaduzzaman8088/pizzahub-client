@@ -33,13 +33,13 @@ The Next.js frontend for **PizzaHub**, a multi-vendor pizza ordering and deliver
 - My Menu with edit, delete, and availability toggle.
 - Add Item with **ImgBB file upload** (required image).
 - Customer Orders page with accept/reject for pending orders.
-- Subscription page with Stripe Checkout and demo upgrade fallback.
+- Subscription page with Stripe Checkout (demo activation is server-side and development-only).
 - Profile settings incl. business name.
 
 ### Admin dashboard
 - Overview with users/orders/revenue/transactions charts.
 - Manage Users (search, role filter, block/unblock, delete).
-- Manage Menu Items (search, status filter, approve/reject, feature, delete).
+- Manage Menu Items (search, status filter, approve/reject/feature/inactive/delete).
 - Read-only Transactions page.
 - Profile settings.
 
@@ -121,4 +121,15 @@ Seeded by the server (`npm run seed`):
 
 ## Stripe test card
 
-Use `4242 4242 4242 4242`, any future expiry date, and any CVC when testing vendor Premium checkout.
+Use `4242 4242 4242 4242`, any future expiry date, any CVC, and any ZIP/postal code when testing vendor Premium checkout. The Premium plan is `$5.00/month` in Stripe test mode.
+
+## Testing the deployed application
+
+1. Open https://pizzahub-client-two.vercel.app.
+2. **Customer:** sign in as `customer@pizzahub.com` / `Customer@123`, browse the menu, place an order, add a review, and save a wishlist item. Pending orders can be cancelled from the Customer Dashboard.
+3. **Vendor:** sign in as `vendor@pizzahub.com` / `Vendor@123`, add a pizza (images upload through ImgBB), and manage incoming orders from **Customer Orders**.
+4. **Admin:** sign in as `admin@pizzahub.com` / `#Admin@2026`, approve the vendor's pending item under **Menu Moderation**, review users, and inspect **Transactions**.
+5. **Premium:** as the vendor, open **Subscription** → **Upgrade with Stripe** → pay with the test card above. After the Stripe webhook confirms payment, the vendor becomes Premium, its listings are featured, and the Premium badge appears. Cancelling the subscription in Stripe returns the vendor to free and removes the featured placement.
+6. **Google sign-in** is enabled for the live domain.
+
+Additional seeded vendor accounts: `vendor2@pizzahub.com` through `vendor6@pizzahub.com`, all with password `Vendor@123`.
