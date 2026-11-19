@@ -48,16 +48,16 @@ const vendorLinks = [
   { label: "Become a PizzaHub Vendor", href: "/sign-up" },
   { label: "Vendor Dashboard", href: "/dashboard/vendor" },
   { label: "Premium Kitchen Subscription", href: "/dashboard/vendor/subscription" },
-  { label: "Quality & Hygiene Standards", href: "/#standards" },
+  { label: "Quality & Hygiene Standards", href: "/policies#standards" },
   { label: "Vendor Success Stories", href: "/#testimonials" },
 ]
 
 const supportLinks = [
   { label: "Help Center & FAQs", href: "/#faq" },
-  { label: "Delivery Coverage & Zones", href: "/#delivery-zones" },
-  { label: "Refund & Cancellation Policy", href: "/#refund-policy" },
-  { label: "Privacy Policy", href: "/#privacy" },
-  { label: "Terms of Service", href: "/#terms" },
+  { label: "Delivery Coverage & Zones", href: "/policies#delivery" },
+  { label: "Refund & Cancellation Policy", href: "/policies#refund" },
+  { label: "Privacy Policy", href: "/policies#privacy" },
+  { label: "Terms of Service", href: "/policies#terms" },
 ]
 
 export function Footer() {
